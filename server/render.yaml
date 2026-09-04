@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: whitegod-portfolio-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: CLIENT_ORIGIN
+        value: "*"
+      - key: MONGO_URI
+        sync: false
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASS
+        sync: false
+      - key: NOTIFICATION_EMAIL
+        value: ayush.singh.10293@gmail.com

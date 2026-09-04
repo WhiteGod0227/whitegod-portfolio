@@ -1,0 +1,20 @@
+{
+  "name": "whitegod-portfolio",
+  "version": "1.0.0",
+  "description": "WhiteGod · Ayush The Predator Full-Stack Portfolio",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
+    "server": "npm --prefix server start",
+    "server:dev": "npm --prefix server run dev"
+  },
+  "keywords": [
+    "portfolio",
+    "fullstack",
+    "express",
+    "javascript"
+  ],
+  "author": "Ayush Kumar Singh (WhiteGod)",
+  "license": "MIT"
+}

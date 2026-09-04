@@ -1,0 +1,4283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WhiteGod · Ayush The Predator</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bangers&family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Permanent+Marker&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --void: #140202; /* Deep Demonic Blood Crimson Base */
+        --grimoire: #1e0505; /* Demonic Panel Background */
+        --aura-mid: #2b0808; /* Elevated Blood Ember Surface */
+        --devil-blue: #ff1e27; /* Radiant Demonic Crimson Red */
+        --abyss: #520c0c; /* Demonic Red Border Accent */
+        --steel: #380808; /* Dark Crimson Border */
+        --soul-pulse: #ffd700; /* Radiant Divine God Gold */
+        --white-god: #fff8e7; /* Radiant Golden Ivory Text */
+        --dim: #e2c696; /* Warm Gold Supporting Text */
+        --devil-spark: #ff4500; /* Demonic Amber-Red Flame */
+        --gold-glow: #ffd700;
+        --crimson-glow: #ff1e27;
+        --ink: #000000;
+        --panel-border: 4px solid #000000;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--void);
+        color: var(--white-god);
+        font-family: 'Rajdhani', sans-serif;
+        font-size: 16px;
+        cursor: none;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0.4;
+      }
+
+      /* Custom Golden Cursor with Smooth Reddish Aura Trail */
+      .cursor-aura-canvas {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 99998;
+      }
+
+      .cursor-aura {
+        position: fixed;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 30, 45, 0.45) 0%,
+          rgba(255, 0, 30, 0.2) 50%,
+          transparent 75%
+        );
+        border: 1.5px solid rgba(255, 30, 45, 0.75);
+        pointer-events: none;
+        z-index: 99999;
+        transform: translate(-50%, -50%);
+        box-shadow:
+          0 0 25px rgba(255, 30, 45, 0.85),
+          inset 0 0 12px rgba(255, 30, 45, 0.4);
+        transition:
+          width 0.25s ease,
+          height 0.25s ease,
+          border-color 0.25s ease;
+        will-change: left, top, transform;
+      }
+
+      .cursor-dot {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background: #ffd700;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 100000;
+        transform: translate(-50%, -50%);
+        box-shadow:
+          0 0 10px #ffd700,
+          0 0 20px #ffaa00;
+        will-change: left, top;
+      }
+
+      body:hover .cursor-aura {
+        opacity: 1;
+      }
+
+      #progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          #ffd700,
+          var(--devil-spark),
+          var(--devil-blue)
+        );
+        z-index: 9998;
+        width: 0%;
+        transition: width 0.1s;
+        box-shadow: 0 0 10px var(--devil-spark);
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        padding: 0 2rem;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(20, 2, 2, 0.92);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255, 215, 0, 0.25);
+      }
+
+      .nav-logo {
+        font-family: 'Bangers', cursive;
+        font-size: 1.8rem;
+        color: #ffd700;
+        text-shadow:
+          0 0 20px rgba(255, 215, 0, 0.9),
+          0 0 40px rgba(255, 30, 39, 0.6);
+        letter-spacing: 3px;
+        text-decoration: none;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+
+      .nav-links a {
+        font-family: 'Rajdhani', sans-serif;
+        font-weight: 600;
+        font-size: 0.85rem;
+        letter-spacing: 2px;
+        color: var(--dim);
+        text-decoration: none;
+        text-transform: uppercase;
+        position: relative;
+        transition: color 0.3s;
+      }
+
+      .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--devil-blue), var(--soul-pulse));
+        transition: width 0.3s;
+        box-shadow: 0 0 6px var(--soul-pulse);
+      }
+
+      .nav-links a:hover {
+        color: var(--white-god);
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      .nav-burger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        padding: 4px;
+      }
+
+      .nav-burger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: var(--soul-pulse);
+        box-shadow: 0 0 6px var(--soul-pulse);
+        transition: all 0.3s;
+      }
+
+      .mobile-nav {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(5, 5, 8, 0.97);
+        z-index: 999;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+      }
+
+      .mobile-nav.open {
+        display: flex;
+      }
+
+      .mobile-nav a {
+        font-family: 'Bangers', cursive;
+        font-size: 2.5rem;
+        color: var(--dim);
+        text-decoration: none;
+        letter-spacing: 4px;
+        transition:
+          color 0.3s,
+          text-shadow 0.3s;
+      }
+
+      .mobile-nav a:hover {
+        color: var(--white-god);
+        text-shadow: 0 0 20px var(--soul-pulse);
+      }
+
+      section {
+        padding: 100px 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section-full {
+        max-width: 100%;
+        padding: 100px 0;
+      }
+
+      .section-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .chapter-header {
+        text-align: center;
+        margin-bottom: 4rem;
+        position: relative;
+      }
+
+      .chapter-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.75rem;
+        letter-spacing: 4px;
+        color: var(--soul-pulse);
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+
+      .chapter-title {
+        font-family: 'Bangers', cursive;
+        font-size: clamp(2.5rem, 6vw, 5rem);
+        line-height: 1;
+        letter-spacing: 3px;
+        color: #ffd700;
+        text-shadow:
+          0 0 30px rgba(255, 215, 0, 0.7),
+          0 0 60px rgba(255, 30, 39, 0.4);
+      }
+
+      .chapter-divider {
+        width: 120px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #ffd700, #ff1e27, transparent);
+        margin: 1rem auto 0;
+        box-shadow: 0 0 12px var(--devil-spark);
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .reveal-left {
+        opacity: 0;
+        transform: translateX(-60px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+
+      .reveal-left.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .reveal-right {
+        opacity: 0;
+        transform: translateX(60px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+
+      .reveal-right.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      #hero {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: radial-gradient(ellipse at center, #350808 0%, #1f0404 55%, #140202 90%);
+        padding: 0;
+        max-width: 100%;
+      }
+
+      .hero-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 30, 39, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 30, 39, 0.08) 1px, transparent 1px);
+        background-size: 60px 60px;
+        animation: gridPulse 4s ease-in-out infinite;
+      }
+
+      @keyframes gridPulse {
+        0%,
+        100% {
+          opacity: 0.5;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .spell-circle {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+      }
+
+      .spell-ring {
+        position: absolute;
+        border-radius: 50%;
+        border: 2px solid;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .ring-1 {
+        width: 340px;
+        height: 340px;
+        border-color: rgba(255, 215, 0, 0.5);
+        animation: spin1 8s linear infinite;
+        box-shadow:
+          0 0 25px rgba(255, 215, 0, 0.35),
+          inset 0 0 20px rgba(255, 30, 39, 0.25);
+      }
+
+      .ring-2 {
+        width: 280px;
+        height: 280px;
+        border-color: rgba(255, 30, 39, 0.5);
+        animation: spin2 6s linear infinite;
+        border-style: dashed;
+      }
+
+      .ring-3 {
+        width: 220px;
+        height: 220px;
+        border-color: rgba(255, 69, 0, 0.45);
+        animation: spin1 10s linear infinite reverse;
+      }
+
+      .ring-dot {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: var(--soul-pulse);
+        border-radius: 50%;
+        box-shadow:
+          0 0 15px var(--soul-pulse),
+          0 0 30px var(--devil-blue);
+        top: -5px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      @keyframes spin1 {
+        from {
+          transform: translate(-50%, -50%) rotate(0deg);
+        }
+        to {
+          transform: translate(-50%, -50%) rotate(360deg);
+        }
+      }
+
+      @keyframes spin2 {
+        from {
+          transform: translate(-50%, -50%) rotate(0deg);
+        }
+        to {
+          transform: translate(-50%, -50%) rotate(-360deg);
+        }
+      }
+
+      #particles {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 10;
+        text-align: center;
+        padding: 2rem;
+      }
+
+      .hero-eyebrow {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8rem;
+        letter-spacing: 6px;
+        color: var(--soul-pulse);
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+        opacity: 0;
+        animation: fadeInUp 0.6s ease 0.8s forwards;
+      }
+
+      .hero-name {
+        font-family: 'Bangers', cursive;
+        font-size: clamp(4rem, 14vw, 10rem);
+        line-height: 0.9;
+        letter-spacing: 6px;
+        color: #ffd700;
+        text-shadow:
+          0 0 35px rgba(255, 215, 0, 0.95),
+          0 0 70px rgba(255, 69, 0, 0.7),
+          0 0 120px rgba(255, 30, 39, 0.5);
+        opacity: 0;
+        animation: fadeInUp 0.8s ease 1s forwards;
+      }
+
+      .hero-alias {
+        font-family: 'Bebas Neue', cursive;
+        font-size: clamp(1.2rem, 4vw, 2.5rem);
+        letter-spacing: 12px;
+        color: #ffe082;
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+        margin-top: 0.5rem;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease 1.2s forwards;
+      }
+
+      .hero-roles {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 1.5rem;
+        flex-wrap: wrap;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease 1.4s forwards;
+      }
+
+      .hero-role-pill {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.75rem;
+        letter-spacing: 2px;
+        color: var(--white-god);
+        padding: 0.4rem 1.2rem;
+        border: 1px solid rgba(255, 215, 0, 0.45);
+        background: rgba(255, 30, 39, 0.16);
+        backdrop-filter: blur(4px);
+        text-transform: uppercase;
+      }
+
+      .hero-tagline {
+        font-family: 'Rajdhani', sans-serif;
+        font-size: clamp(1rem, 2.5vw, 1.3rem);
+        font-weight: 500;
+        color: var(--dim);
+        margin-top: 1.5rem;
+        font-style: italic;
+        letter-spacing: 1px;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease 1.6s forwards;
+      }
+
+      .hero-cta {
+        margin-top: 2.5rem;
+        display: inline-block;
+        font-family: 'Bangers', cursive;
+        font-size: 1.3rem;
+        letter-spacing: 3px;
+        color: #ffd700;
+        padding: 1rem 2.5rem;
+        border: 2px solid var(--soul-pulse);
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 30, 39, 0.2));
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease 1.8s forwards;
+        box-shadow: 0 0 25px rgba(255, 30, 39, 0.45);
+      }
+
+      .hero-cta::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.4), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.5s;
+      }
+
+      .hero-cta:hover::before {
+        transform: translateX(100%);
+      }
+
+      .hero-cta:hover {
+        box-shadow:
+          0 0 35px var(--soul-pulse),
+          0 0 70px rgba(255, 30, 39, 0.6);
+        border-color: #ffd700;
+        color: #ffffff;
+        transform: translateY(-2px);
+      }
+
+      .hero-scroll-hint {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        opacity: 0;
+        animation: fadeInUp 1s ease 2.2s forwards;
+      }
+
+      .scroll-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.65rem;
+        letter-spacing: 4px;
+        color: var(--dim);
+        text-transform: uppercase;
+      }
+
+      .scroll-arrow {
+        width: 24px;
+        height: 24px;
+        border-right: 2px solid rgba(255, 215, 0, 0.6);
+        border-bottom: 2px solid rgba(255, 215, 0, 0.6);
+        transform: rotate(45deg);
+        animation: bounce 1.5s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: rotate(45deg) translateY(0);
+        }
+        50% {
+          transform: rotate(45deg) translateY(6px);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      #about {
+        padding-top: 120px;
+      }
+
+      .about-chapter-bar {
+        background: var(--grimoire);
+        border: var(--panel-border);
+        padding: 1rem 2rem;
+        margin-bottom: 3rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .about-chapter-bar::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 6px;
+        background: linear-gradient(180deg, var(--devil-blue), var(--soul-pulse));
+      }
+
+      .about-chapter-bar .chapter-num {
+        font-family: 'Bangers', cursive;
+        font-size: 3rem;
+        color: rgba(255, 215, 0, 0.3);
+        line-height: 1;
+        text-shadow: 0 0 15px rgba(255, 30, 39, 0.4);
+      }
+
+      .about-chapter-bar .chapter-info h2 {
+        font-family: 'Bangers', cursive;
+        font-size: 1.8rem;
+        letter-spacing: 3px;
+        color: #ffd700;
+      }
+
+      .about-chapter-bar .chapter-info p {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        letter-spacing: 3px;
+        color: var(--soul-pulse);
+        text-transform: uppercase;
+      }
+
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 0;
+        border: var(--panel-border);
+      }
+
+      .about-left {
+        background: var(--grimoire);
+        border-right: var(--panel-border);
+        position: relative;
+        overflow: hidden;
+        min-height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .dual-avatar-container {
+        position: relative;
+        width: 320px;
+        height: 330px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .avatar-circle {
+        position: absolute;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid var(--devil-blue);
+        box-shadow:
+          0 0 35px rgba(26, 26, 255, 0.4),
+          4px 4px 0 var(--ink);
+        transition:
+          transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+          box-shadow 0.4s ease,
+          border-color 0.4s ease,
+          z-index 0.2s ease;
+        cursor: pointer;
+      }
+
+      /* 1st Circle: White God (Top-Left, Looking Down-Right) */
+      .avatar-god {
+        width: 175px;
+        height: 175px;
+        top: 15px;
+        left: 20px;
+        z-index: 2;
+        border-color: #f7c948;
+        box-shadow:
+          0 0 35px rgba(247, 201, 72, 0.45),
+          0 0 70px rgba(79, 110, 247, 0.25),
+          5px 5px 0 var(--ink);
+      }
+
+      .avatar-god:hover {
+        transform: scale(1.1) translate(-4px, -4px);
+        z-index: 5;
+        border-color: #ffe600;
+        box-shadow:
+          0 0 50px rgba(255, 230, 0, 0.7),
+          0 0 90px rgba(79, 110, 247, 0.5),
+          8px 8px 0 var(--ink);
+      }
+
+      /* 2nd Circle: The Predator / Devil (Bottom-Right, Looking Up-Left) */
+      .avatar-devil {
+        width: 175px;
+        height: 175px;
+        bottom: 15px;
+        right: 20px;
+        z-index: 3;
+        border-color: #ff3344;
+        box-shadow:
+          0 0 35px rgba(255, 51, 68, 0.5),
+          0 0 70px rgba(123, 47, 255, 0.3),
+          5px 5px 0 var(--ink);
+      }
+
+      .avatar-devil:hover {
+        transform: scale(1.1) translate(4px, 4px);
+        z-index: 5;
+        border-color: #ff1122;
+        box-shadow:
+          0 0 50px rgba(255, 17, 34, 0.75),
+          0 0 90px rgba(123, 47, 255, 0.5),
+          8px 8px 0 var(--ink);
+      }
+
+      .avatar-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition:
+          transform 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+          filter 0.4s ease;
+      }
+
+      /* Focus on face of God avatar (looking down-right towards devil) */
+      .god-img {
+        object-position: 50% 32%;
+        transform: scale(1.28);
+        filter: brightness(1.02) contrast(1.05);
+      }
+
+      .avatar-god:hover .god-img {
+        transform: scale(1.36);
+        filter: brightness(1.12) contrast(1.1);
+      }
+
+      /* Focus on face of Devil avatar (looking up-left towards god) */
+      .devil-img {
+        object-position: 50% 28%;
+        transform: scale(1.28);
+        filter: brightness(1.02) contrast(1.05);
+      }
+
+      .avatar-devil:hover .devil-img {
+        transform: scale(1.36);
+        filter: brightness(1.12) contrast(1.15);
+      }
+
+      /* Rotating Outer Energy Rings */
+      .avatar-god::before {
+        content: '';
+        position: absolute;
+        inset: -8px;
+        border-radius: 50%;
+        border: 2px dashed rgba(247, 201, 72, 0.6);
+        animation: spinClockwise 10s linear infinite;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      .avatar-devil::before {
+        content: '';
+        position: absolute;
+        inset: -8px;
+        border-radius: 50%;
+        border: 2px dashed rgba(255, 51, 68, 0.65);
+        animation: spinCounterClockwise 10s linear infinite;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      @keyframes spinClockwise {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes spinCounterClockwise {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(-360deg);
+        }
+      }
+
+      .avatar-tag {
+        position: absolute;
+        bottom: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.58rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        padding: 0.18rem 0.5rem;
+        background: rgba(5, 5, 8, 0.85);
+        border-radius: 2px;
+        white-space: nowrap;
+        backdrop-filter: blur(4px);
+        pointer-events: none;
+        z-index: 3;
+        transition: all 0.3s ease;
+      }
+
+      .avatar-god .avatar-tag {
+        color: #f7c948;
+        border: 1px solid rgba(247, 201, 72, 0.6);
+      }
+
+      .avatar-devil .avatar-tag {
+        color: #ff4455;
+        border: 1px solid rgba(255, 51, 68, 0.6);
+      }
+
+      .about-ono {
+        position: absolute;
+        font-family: 'Permanent Marker', cursive;
+        color: rgba(245, 175, 25, 0.15);
+        font-size: 2rem;
+        transform: rotate(-15deg);
+      }
+
+      .about-ono:nth-child(1) {
+        top: 20px;
+        left: 20px;
+      }
+
+      .about-ono:nth-child(2) {
+        bottom: 20px;
+        right: 10px;
+        transform: rotate(10deg);
+      }
+
+      .about-right {
+        padding: 2.5rem;
+        background: var(--grimoire);
+      }
+
+      .speech-bubble {
+        background: var(--void);
+        border: 3px solid var(--devil-blue);
+        padding: 1.2rem 1.5rem;
+        margin-bottom: 1.2rem;
+        position: relative;
+        box-shadow: 4px 4px 0 var(--ink), 0 0 15px rgba(255, 30, 39, 0.25);
+      }
+
+      .speech-bubble::before {
+        content: '';
+        position: absolute;
+        left: 2rem;
+        bottom: -16px;
+        border: 8px solid transparent;
+        border-top-color: var(--devil-blue);
+      }
+
+      .speech-bubble::after {
+        content: '';
+        position: absolute;
+        left: 2rem;
+        bottom: -12px;
+        border: 7px solid transparent;
+        border-top-color: var(--void);
+      }
+
+      .speech-bubble p {
+        font-size: 1rem;
+        line-height: 1.7;
+        color: var(--white-god);
+        font-weight: 500;
+      }
+
+      .about-alias-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+      }
+
+      .alias-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        padding: 0.3rem 0.8rem;
+        border: 1px solid rgba(255, 215, 0, 0.4);
+        color: #ffd700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        background: rgba(255, 30, 39, 0.12);
+      }
+
+      .fun-fact-panel {
+        margin-top: 1.5rem;
+        border: 2px solid var(--abyss);
+        background: rgba(43, 8, 8, 0.6);
+        padding: 1rem 1.5rem;
+        position: relative;
+        box-shadow: 4px 4px 0 var(--ink);
+      }
+
+      .fun-fact-label {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 0.85rem;
+        letter-spacing: 3px;
+        color: #ffd700;
+        margin-bottom: 0.5rem;
+      }
+
+      .fun-fact-panel p {
+        font-size: 0.95rem;
+        color: var(--dim);
+        font-style: italic;
+      }
+
+      #skills {
+        background: var(--grimoire);
+        max-width: 100%;
+        padding: 100px 0;
+      }
+
+      .breath-category {
+        margin-bottom: 4rem;
+      }
+
+      .breath-header {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 1rem 2rem;
+        margin-bottom: 2rem;
+        background: rgba(20, 2, 2, 0.6);
+        border: 3px solid var(--steel);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .breath-header::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 200px;
+        background: linear-gradient(90deg, transparent, var(--breath-color, var(--devil-blue)));
+        opacity: 0.15;
+      }
+
+      .breath-icon {
+        font-size: 2rem;
+        flex-shrink: 0;
+      }
+
+      .breath-title {
+        font-family: 'Bangers', cursive;
+        font-size: 2rem;
+        letter-spacing: 4px;
+        color: #ffd700;
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+      }
+
+      .breath-subtitle {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        letter-spacing: 3px;
+        color: var(--breath-color, var(--soul-pulse));
+        text-transform: uppercase;
+      }
+
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 1rem;
+      }
+
+      .skill-card {
+        background: var(--void);
+        border: 3px solid var(--ink);
+        box-shadow: 4px 4px 0 var(--ink);
+        padding: 1.2rem;
+        position: relative;
+        overflow: hidden;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+        border-left: 4px solid var(--breath-color, var(--devil-blue));
+      }
+
+      .skill-card:hover {
+        transform: translate(-3px, -3px);
+        box-shadow:
+          7px 7px 0 var(--ink),
+          0 0 25px rgba(255, 30, 39, 0.45),
+          0 0 15px rgba(255, 215, 0, 0.3);
+      }
+
+      .skill-name {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--white-god);
+        margin-bottom: 0.8rem;
+        letter-spacing: 1px;
+      }
+
+      .skill-level-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: 'Bebas Neue', cursive;
+        font-size: 0.75rem;
+        letter-spacing: 2px;
+        padding: 0.2rem 0.6rem;
+        margin-bottom: 0.8rem;
+      }
+
+      .level-hashira {
+        color: #ffd700;
+        background: rgba(255, 30, 39, 0.25);
+        border: 1px solid var(--devil-blue);
+      }
+
+      .level-cultivator {
+        color: #ffd700;
+        background: rgba(255, 215, 0, 0.15);
+        border: 1px solid var(--soul-pulse);
+      }
+
+      .level-trainee {
+        color: var(--dim);
+        background: rgba(226, 198, 150, 0.1);
+        border: 1px solid var(--steel);
+      }
+
+      .skill-bar-track {
+        height: 4px;
+        background: var(--steel);
+        overflow: hidden;
+      }
+
+      .skill-bar-fill {
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          var(--breath-color, var(--devil-blue)),
+          var(--soul-pulse)
+        );
+        width: 0%;
+        transition: width 1s cubic-bezier(0.23, 1, 0.32, 1);
+        box-shadow: 0 0 8px var(--soul-pulse);
+        position: relative;
+      }
+
+      .skill-bar-fill::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: -3px;
+        width: 10px;
+        height: 10px;
+        background: #ffd700;
+        border-radius: 50%;
+        box-shadow: 0 0 8px #ffd700;
+        opacity: 0;
+        transition: opacity 0.3s 0.8s;
+      }
+
+      .skill-bar-fill.animated::after {
+        opacity: 1;
+      }
+
+      #projects {
+        padding-top: 100px;
+      }
+
+      .projects-grid {
+        display: grid;
+        gap: 0;
+        grid-template-rows: auto auto;
+      }
+
+      .editing-spell {
+        background: #1a0404;
+        border: 3px solid var(--devil-blue);
+        box-shadow: 6px 6px 0 var(--ink), 0 0 35px rgba(255, 30, 39, 0.35);
+        padding: 2rem 1.5rem 1.5rem;
+        margin: 0 0 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .editing-spell::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          120deg,
+          rgba(255, 30, 39, 0.12),
+          rgba(255, 215, 0, 0.08),
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+
+      .editing-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .editing-title {
+        font-family: 'Bangers', cursive;
+        font-size: clamp(1.8rem, 3vw, 2.6rem);
+        letter-spacing: 2px;
+        color: #ffd700;
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+      }
+
+      .editing-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: #ffd700;
+        border: 1px solid rgba(255, 215, 0, 0.6);
+        background: rgba(255, 30, 39, 0.15);
+        padding: 0.4rem 0.8rem;
+      }
+
+      .editing-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(150px, 1fr));
+        gap: 1rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .reel-block {
+        position: relative;
+        aspect-ratio: 9 / 16;
+        border: 3px solid var(--ink);
+        background: #100202;
+        overflow: hidden;
+        box-shadow: 6px 6px 0 var(--ink);
+        animation: reelFloat 4.5s ease-in-out infinite;
+        display: block;
+        text-decoration: none;
+        cursor: pointer;
+        transition:
+          transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+          box-shadow 0.35s ease,
+          border-color 0.35s ease;
+      }
+
+      .reel-block:hover {
+        transform: translateY(-10px) scale(1.03);
+        box-shadow:
+          10px 10px 0 var(--ink),
+          0 0 35px rgba(255, 30, 39, 0.7),
+          0 0 60px rgba(255, 215, 0, 0.4);
+        border-color: #ffd700;
+      }
+
+      .reel-block:nth-child(2) {
+        animation-delay: 0.5s;
+      }
+
+      .reel-block:nth-child(3) {
+        animation-delay: 1s;
+      }
+
+      .reel-block:nth-child(4) {
+        animation-delay: 1.5s;
+      }
+
+      .reel-poster {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        transition:
+          transform 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+          filter 0.4s ease;
+        filter: brightness(0.9) contrast(1.05);
+      }
+
+      .reel-block:hover .reel-poster {
+        transform: scale(1.08);
+        filter: brightness(1.02) contrast(1.1);
+      }
+
+      .reel-block::before,
+      .reel-block::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .reel-block::before {
+        background: linear-gradient(
+          120deg,
+          rgba(255, 255, 255, 0.15),
+          transparent 35%,
+          rgba(255, 30, 39, 0.3) 68%,
+          transparent 100%
+        );
+        transform: translateX(-100%);
+        animation: shimmer 3s ease-in-out infinite;
+        z-index: 3;
+      }
+
+      .reel-block::after {
+        background: linear-gradient(
+          180deg,
+          rgba(20, 2, 2, 0.3) 0%,
+          transparent 40%,
+          rgba(20, 2, 2, 0.5) 65%,
+          rgba(20, 2, 2, 0.94) 100%
+        );
+        z-index: 1;
+      }
+
+      .reel-surface {
+        position: absolute;
+        inset: 7% 6%;
+        border: 2px solid rgba(255, 215, 0, 0.5);
+        background: linear-gradient(135deg, rgba(255, 30, 39, 0.15), rgba(255, 215, 0, 0.1));
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        padding-bottom: 0.9rem;
+        pointer-events: none;
+        z-index: 2;
+        transition: all 0.35s ease;
+        box-shadow: inset 0 0 10px rgba(255, 30, 39, 0.3);
+      }
+
+      .reel-block:hover .reel-surface {
+        border-color: #ffd700;
+        background: linear-gradient(135deg, rgba(255, 30, 39, 0.3), rgba(255, 215, 0, 0.25));
+        box-shadow:
+          inset 0 0 20px rgba(255, 215, 0, 0.4),
+          0 0 20px rgba(255, 30, 39, 0.6);
+      }
+
+      .reel-text {
+        font-family: 'Bangers', cursive;
+        letter-spacing: 2px;
+        color: #ffd700;
+        text-shadow:
+          0 0 15px rgba(255, 215, 0, 0.9),
+          2px 2px 0 #000;
+        font-size: clamp(1.2rem, 1.8vw, 1.8rem);
+        line-height: 1.1;
+        margin-bottom: 0.4rem;
+        transition:
+          transform 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .reel-block:hover .reel-text {
+        transform: translateY(-2px);
+        color: #ffffff;
+        text-shadow:
+          0 0 20px #ffd700,
+          0 0 35px var(--devil-blue);
+      }
+
+      .reel-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.62rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: #ffd700;
+        background: rgba(20, 2, 2, 0.9);
+        border: 1px solid rgba(255, 215, 0, 0.6);
+        padding: 0.2rem 0.55rem;
+        border-radius: 2px;
+        opacity: 0.9;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(4px);
+      }
+
+      .reel-block:hover .reel-action {
+        opacity: 1;
+        color: #ffffff;
+        background: linear-gradient(135deg, var(--soul-pulse), var(--devil-blue));
+        border-color: #ffd700;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+      }
+
+      .reel-play-icon {
+        font-size: 0.55rem;
+        color: #fff;
+      }
+
+      .reel-label {
+        position: absolute;
+        left: 0.8rem;
+        top: 0.8rem;
+        z-index: 4;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.62rem;
+        letter-spacing: 2px;
+        color: #ffd700;
+        background: rgba(20, 2, 2, 0.9);
+        border: 1px solid rgba(255, 215, 0, 0.6);
+        padding: 0.25rem 0.5rem;
+        backdrop-filter: blur(4px);
+        transition: all 0.3s ease;
+      }
+
+      .reel-block:hover .reel-label {
+        color: #ffffff;
+        border-color: #ffd700;
+        box-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
+      }
+
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-100%);
+        }
+        45%,
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
+      @keyframes reelFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+
+      .project-card {
+        background: var(--grimoire);
+        border: var(--panel-border);
+        overflow: hidden;
+        position: relative;
+        transition: transform 0.3s;
+        box-shadow: 6px 6px 0 var(--ink);
+      }
+
+      .project-card:hover {
+        transform: translate(-4px, -4px);
+        box-shadow: 10px 10px 0 var(--ink);
+      }
+
+      .project-card-featured {
+        margin-bottom: 0;
+        border-bottom: none;
+      }
+
+      .project-visual {
+        height: 220px;
+        background: linear-gradient(135deg, #2b0808, #180505);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .project-visual-featured {
+        height: 300px;
+      }
+
+      .project-visual::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(circle, rgba(0, 0, 0, 0.6) 1px, transparent 1px);
+        background-size: 8px 8px;
+        opacity: 0.6;
+      }
+
+      .project-icon {
+        font-size: 4rem;
+        z-index: 1;
+        opacity: 0.5;
+      }
+
+      .project-arc-label {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.65rem;
+        letter-spacing: 3px;
+        color: #ffd700;
+        background: rgba(20, 2, 2, 0.9);
+        padding: 0.3rem 0.8rem;
+        z-index: 2;
+        text-transform: uppercase;
+        border: 1px solid var(--steel);
+      }
+
+      .project-body {
+        padding: 1.5rem;
+      }
+
+      .project-title {
+        font-family: 'Bangers', cursive;
+        font-size: 2rem;
+        letter-spacing: 2px;
+        color: #ffd700;
+        margin-bottom: 0.8rem;
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+      }
+
+      .project-desc {
+        font-size: 0.95rem;
+        color: var(--dim);
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        border-left: 3px solid var(--steel);
+        padding-left: 1rem;
+      }
+
+      .tech-stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.2rem;
+      }
+
+      .tech-pill {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.65rem;
+        letter-spacing: 1.5px;
+        padding: 0.3rem 0.7rem;
+        background: rgba(255, 30, 39, 0.12);
+        border: 1px solid rgba(255, 215, 0, 0.4);
+        color: #ffd700;
+      }
+
+      .project-links {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .project-link {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+        padding: 0.5rem 1.2rem;
+        text-decoration: none;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      .project-link-primary {
+        background: linear-gradient(135deg, var(--soul-pulse), var(--devil-blue));
+        color: white;
+        border: 2px solid var(--soul-pulse);
+      }
+
+      .project-link-primary:hover {
+        background: transparent;
+        color: var(--soul-pulse);
+        box-shadow: 0 0 20px rgba(255, 30, 39, 0.6);
+      }
+
+      .project-link-secondary {
+        border: 2px solid var(--steel);
+        color: var(--dim);
+      }
+
+      .project-link-secondary:hover {
+        border-color: var(--soul-pulse);
+        color: #ffd700;
+      }
+
+      .projects-bottom-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .projects-bottom-row .project-card:first-child {
+        border-right: none;
+      }
+
+      #experience {
+        background: var(--grimoire);
+        max-width: 100%;
+        padding: 100px 0;
+      }
+
+      .timeline {
+        position: relative;
+        padding-left: 3rem;
+      }
+
+      .timeline::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(
+          180deg,
+          #ffd700,
+          var(--devil-blue),
+          var(--devil-spark)
+        );
+        box-shadow: 0 0 12px var(--devil-blue);
+      }
+
+      .timeline-entry {
+        position: relative;
+        margin-bottom: 3rem;
+      }
+
+      .timeline-dot {
+        position: absolute;
+        left: -3.5rem;
+        top: 1.5rem;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--devil-blue);
+        border: 3px solid var(--void);
+        box-shadow:
+          0 0 15px var(--soul-pulse),
+          0 0 30px var(--devil-blue);
+        animation: dotPulse 2s infinite;
+      }
+
+      @keyframes dotPulse {
+        0%,
+        100% {
+          box-shadow:
+            0 0 15px var(--soul-pulse),
+            0 0 30px var(--devil-blue);
+        }
+        50% {
+          box-shadow:
+            0 0 25px var(--soul-pulse),
+            0 0 50px var(--devil-blue);
+        }
+      }
+
+      .timeline-card {
+        background: var(--void);
+        border: var(--panel-border);
+        box-shadow: 6px 6px 0 var(--ink);
+        padding: 2rem;
+        position: relative;
+      }
+
+      .timeline-card::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 5px;
+        background: linear-gradient(180deg, var(--soul-pulse), var(--devil-blue));
+      }
+
+      .arc-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.65rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: #ffd700;
+        background: rgba(255, 30, 39, 0.15);
+        border: 1px solid var(--devil-blue);
+        padding: 0.3rem 0.8rem;
+        margin-bottom: 1rem;
+      }
+
+      .exp-company {
+        font-family: 'Bangers', cursive;
+        font-size: 1.8rem;
+        letter-spacing: 2px;
+        color: #ffd700;
+        margin-bottom: 0.3rem;
+        text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+      }
+
+      .exp-role {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 1rem;
+        letter-spacing: 3px;
+        color: var(--soul-pulse);
+        margin-bottom: 0.2rem;
+      }
+
+      .exp-dates {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.75rem;
+        color: var(--dim);
+        margin-bottom: 1.5rem;
+        letter-spacing: 2px;
+      }
+
+      .exp-achievements {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+
+      .exp-achievements li {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.95rem;
+        color: var(--dim);
+        line-height: 1.5;
+      }
+
+      .exp-achievements li::before {
+        content: '✦';
+        color: var(--soul-pulse);
+        flex-shrink: 0;
+        margin-top: 0.1rem;
+      }
+
+      .timeline-future {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.5rem;
+        border: 2px dashed var(--steel);
+        color: var(--dim);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.75rem;
+        letter-spacing: 3px;
+      }
+
+      #testimonials {
+        padding: 100px 2rem;
+      }
+
+      .testi-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+
+      .testi-card {
+        background: var(--grimoire);
+        border: var(--panel-border);
+        box-shadow: 6px 6px 0 var(--ink);
+        padding: 2rem;
+        position: relative;
+      }
+
+      .testi-quote-mark {
+        font-family: 'Bangers', cursive;
+        font-size: 5rem;
+        color: rgba(255, 215, 0, 0.15);
+        line-height: 1;
+        position: absolute;
+        top: 0.5rem;
+        left: 1rem;
+      }
+
+      .testi-text {
+        font-size: 1rem;
+        line-height: 1.7;
+        color: var(--white-god);
+        font-style: italic;
+        margin-bottom: 1.5rem;
+        padding-top: 1rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .testi-stars {
+        display: flex;
+        gap: 0.3rem;
+        margin-bottom: 1rem;
+      }
+
+      .star {
+        font-size: 1rem;
+        color: var(--soul-pulse);
+        text-shadow: 0 0 8px var(--soul-pulse);
+      }
+
+      .testi-client {
+        border-top: 2px solid var(--steel);
+        padding-top: 1rem;
+      }
+
+      .testi-name {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 1.1rem;
+        letter-spacing: 2px;
+        color: var(--soul-pulse);
+      }
+
+      .testi-role {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        letter-spacing: 2px;
+        color: var(--dim);
+      }
+
+      #contact {
+        background: var(--grimoire);
+        max-width: 100%;
+        padding: 100px 0;
+      }
+
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 0;
+        border: var(--panel-border);
+        box-shadow: 8px 8px 0 var(--ink);
+      }
+
+      .contact-left {
+        padding: 3rem;
+        border-right: var(--panel-border);
+        background: var(--void);
+      }
+
+      .contact-intro {
+        font-family: 'Bangers', cursive;
+        font-size: 2rem;
+        letter-spacing: 3px;
+        color: #ffd700;
+        margin-bottom: 1rem;
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+      }
+
+      .contact-sub {
+        font-size: 0.95rem;
+        color: var(--dim);
+        line-height: 1.6;
+        margin-bottom: 2rem;
+        font-style: italic;
+      }
+
+      .social-links {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .social-link {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        text-decoration: none;
+        padding: 0.8rem 1rem;
+        border: 2px solid var(--steel);
+        color: var(--dim);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+        transition: all 0.3s;
+        background: rgba(20, 2, 2, 0.6);
+      }
+
+      .social-link:hover {
+        border-color: var(--soul-pulse);
+        color: #ffd700;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        transform: translateX(4px);
+      }
+
+      .social-icon {
+        font-size: 1.2rem;
+      }
+
+      .contact-right {
+        padding: 3rem;
+        background: var(--grimoire);
+      }
+
+      .grimoire-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .form-field {
+        position: relative;
+        border: 3px solid var(--steel);
+        background: var(--void);
+        transition: border-color 0.3s;
+      }
+
+      .form-field:focus-within {
+        border-color: var(--soul-pulse);
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+      }
+
+      .form-label {
+        display: block;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.65rem;
+        letter-spacing: 3px;
+        color: #ffd700;
+        text-transform: uppercase;
+        padding: 0.7rem 1rem 0;
+      }
+
+      .form-input,
+      .form-textarea {
+        display: block;
+        width: 100%;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: var(--white-god);
+        font-family: 'Rajdhani', sans-serif;
+        font-size: 1rem;
+        font-weight: 500;
+        padding: 0.3rem 1rem 0.8rem;
+      }
+
+      .form-textarea {
+        resize: vertical;
+        min-height: 120px;
+      }
+
+      .submit-btn {
+        font-family: 'Bangers', cursive;
+        font-size: 1.3rem;
+        letter-spacing: 4px;
+        padding: 1rem;
+        background: linear-gradient(135deg, #ffd700 0%, var(--devil-spark) 50%, var(--devil-blue) 100%);
+        color: #140202;
+        font-weight: bold;
+        border: 2px solid var(--soul-pulse);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s;
+        box-shadow: 0 0 20px rgba(255, 30, 39, 0.5);
+      }
+
+      .submit-btn:hover {
+        background: transparent;
+        color: #ffd700;
+        box-shadow: 0 0 35px rgba(255, 215, 0, 0.7);
+      }
+
+      .submit-btn::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.5s;
+      }
+
+      .submit-btn:hover::after {
+        transform: translateX(100%);
+      }
+
+      .form-success {
+        display: none;
+        text-align: center;
+        padding: 2rem;
+      }
+
+      .form-success.show {
+        display: block;
+      }
+
+      .success-text {
+        font-family: 'Bangers', cursive;
+        font-size: 2rem;
+        letter-spacing: 3px;
+        color: var(--soul-pulse);
+        text-shadow: 0 0 20px var(--soul-pulse);
+        animation: pulse 1s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          text-shadow: 0 0 20px var(--soul-pulse);
+        }
+        50% {
+          text-shadow:
+            0 0 40px var(--soul-pulse),
+            0 0 80px var(--devil-blue);
+        }
+      }
+
+      footer {
+        background: var(--void);
+        border-top: var(--panel-border);
+        padding: 3rem 2rem;
+        text-align: center;
+      }
+
+      .footer-seal {
+        font-family: 'Bangers', cursive;
+        font-size: 3rem;
+        letter-spacing: 6px;
+        color: #ffd700;
+        text-shadow: 0 0 30px var(--devil-blue);
+        margin-bottom: 0.5rem;
+      }
+
+      .footer-copy {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        letter-spacing: 2px;
+        color: var(--dim);
+        margin-bottom: 1.5rem;
+      }
+
+      .footer-socials {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+      }
+
+      .footer-social-link {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+        color: var(--dim);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .footer-social-link:hover {
+        color: #ffd700;
+      }
+
+      #back-top {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, var(--soul-pulse), var(--devil-blue));
+        border: 2px solid #ffd700;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        box-shadow: 0 0 20px var(--devil-spark);
+        font-size: 1rem;
+        color: white;
+        z-index: 100;
+      }
+
+      #back-top.visible {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      #back-top:hover {
+        box-shadow: 0 0 40px var(--soul-pulse);
+        transform: translateY(-3px);
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+        .nav-burger {
+          display: flex;
+        }
+        .about-grid {
+          grid-template-columns: 1fr;
+        }
+        .about-left {
+          border-right: none;
+          border-bottom: var(--panel-border);
+          min-height: 250px;
+        }
+        .skills-grid {
+          grid-template-columns: 1fr;
+        }
+        .editing-grid {
+          grid-template-columns: repeat(2, minmax(130px, 1fr));
+        }
+        .projects-bottom-row {
+          grid-template-columns: 1fr;
+        }
+        .projects-bottom-row .project-card:first-child {
+          border-right: var(--panel-border);
+          border-bottom: none;
+        }
+        .testi-grid {
+          grid-template-columns: 1fr;
+        }
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+        .contact-left {
+          border-right: none;
+          border-bottom: var(--panel-border);
+        }
+        .timeline {
+          padding-left: 2rem;
+        }
+        .timeline-dot {
+          left: -2.5rem;
+        }
+        .ring-1 {
+          width: 240px;
+          height: 240px;
+        }
+        .ring-2 {
+          width: 190px;
+          height: 190px;
+        }
+        .ring-3 {
+          width: 150px;
+          height: 150px;
+        }
+      }
+
+      /* ============================================================
+         GRIMOIRE CORE INSPECTOR MODAL & API NOTIFICATION STYLES
+         ============================================================ */
+      #serverStatusBadge {
+        margin-top: 1rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.72rem;
+        color: #ffd700;
+        opacity: 0.9;
+        cursor: pointer;
+        padding: 0.45rem 0.9rem;
+        border-radius: 4px;
+        background: rgba(30, 5, 5, 0.6);
+        border: 1px solid rgba(255, 215, 0, 0.25);
+        transition: all 0.25s ease;
+        user-select: none;
+      }
+
+      #serverStatusBadge:hover {
+        background: rgba(255, 30, 45, 0.2);
+        border-color: #ffd700;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        transform: translateY(-1px);
+      }
+
+      #formError {
+        display: none;
+        color: #ff6b6b;
+        background: rgba(255, 30, 45, 0.15);
+        border: 1px solid #ff1e27;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8rem;
+        padding: 0.6rem 0.9rem;
+        border-radius: 4px;
+        margin-top: 0.8rem;
+        text-align: center;
+        line-height: 1.4;
+      }
+
+      .grimoire-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 9999999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+      }
+
+      .grimoire-modal-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(8, 2, 2, 0.88);
+        backdrop-filter: blur(8px);
+      }
+
+      .grimoire-modal-card {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 680px;
+        max-height: 85vh;
+        background: #140202;
+        border: 2px solid #ff1e27;
+        box-shadow: 0 0 35px rgba(255, 30, 45, 0.5), inset 0 0 20px rgba(40, 5, 5, 0.9);
+        display: flex;
+        flex-direction: column;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+
+      .grimoire-modal-header {
+        padding: 1rem 1.25rem;
+        background: #1e0505;
+        border-bottom: 2px solid #380808;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .grimoire-modal-title {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1.4rem;
+        letter-spacing: 2px;
+        color: #ffd700;
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+      }
+
+      .grimoire-modal-close {
+        background: transparent;
+        border: 1px solid #ff1e27;
+        color: #ff1e27;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        border-radius: 4px;
+      }
+
+      .grimoire-modal-close:hover {
+        background: #ff1e27;
+        color: #fff;
+        box-shadow: 0 0 12px #ff1e27;
+      }
+
+      .grimoire-modal-body {
+        padding: 1.25rem;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .grimoire-status-panel {
+        background: #1e0505;
+        border: 1px solid #380808;
+        padding: 0.9rem 1.1rem;
+        border-radius: 4px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8rem;
+      }
+
+      .status-panel-row {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+      }
+
+      .status-panel-label {
+        color: #a88960;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .status-panel-val {
+        color: #fff8e7;
+        font-weight: 600;
+      }
+
+      .status-panel-val.status-online {
+        color: #00ff88;
+        text-shadow: 0 0 8px #00ff88;
+      }
+
+      .grimoire-modal-actions {
+        display: flex;
+        gap: 0.6rem;
+      }
+
+      .grimoire-modal-btn {
+        flex: 1;
+        background: rgba(255, 30, 45, 0.15);
+        border: 1px solid rgba(255, 215, 0, 0.4);
+        color: #ffd700;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8rem;
+        padding: 0.6rem 1rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+      }
+
+      .grimoire-modal-btn:hover {
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 30, 45, 0.4));
+        border-color: #ffd700;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+      }
+
+      .grimoire-scrolls-header {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1.1rem;
+        letter-spacing: 2px;
+        color: #ffd700;
+        border-bottom: 1px solid #380808;
+        padding-bottom: 0.4rem;
+        margin-top: 0.4rem;
+      }
+
+      .grimoire-scrolls-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        max-height: 280px;
+        overflow-y: auto;
+      }
+
+      .grimoire-scroll-empty {
+        text-align: center;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8rem;
+        color: #a88960;
+        padding: 2rem 1rem;
+        border: 1px dashed #380808;
+        border-radius: 4px;
+      }
+
+      .modal-scroll-card {
+        background: #1a0404;
+        border: 1px solid #380808;
+        border-left: 3px solid #ff1e27;
+        padding: 0.8rem 1rem;
+        border-radius: 4px;
+      }
+
+      .modal-scroll-meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.75rem;
+        margin-bottom: 0.4rem;
+      }
+
+      .modal-scroll-author {
+        color: #ffd700;
+        font-weight: bold;
+      }
+
+      .modal-scroll-email {
+        color: #a88960;
+      }
+
+      .modal-scroll-time {
+        margin-left: auto;
+        color: #7a6045;
+        font-size: 0.7rem;
+      }
+
+      .modal-scroll-content {
+        color: #fff8e7;
+        font-family: 'Rajdhani', sans-serif;
+        font-size: 0.95rem;
+        line-height: 1.4;
+        white-space: pre-wrap;
+      }
+
+      .grimoire-toast {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 10000000;
+        padding: 0.8rem 1.4rem;
+        background: #140202;
+        border: 1px solid #ffd700;
+        color: #fff8e7;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.85rem;
+        border-radius: 4px;
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.4), 0 8px 16px rgba(0, 0, 0, 0.8);
+        transform: translateY(30px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        pointer-events: none;
+      }
+
+      .grimoire-toast.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .grimoire-toast-warn {
+        border-color: #ff4500;
+        box-shadow: 0 0 25px rgba(255, 69, 0, 0.4);
+      }
+
+      .grimoire-toast-success {
+        border-color: #00ff88;
+        box-shadow: 0 0 25px rgba(0, 255, 136, 0.4);
+      }
+
+      /* ============================================================
+         KATANA SMASH OPENING ANIMATION STYLES
+         ============================================================ */
+      .katana-intro {
+        position: fixed;
+        inset: 0;
+        z-index: 999999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: #080404;
+        pointer-events: all;
+        transition: opacity 0.5s ease;
+      }
+
+      .katana-intro.finished {
+        opacity: 0;
+        pointer-events: none !important;
+        visibility: hidden;
+        display: none !important;
+      }
+
+      /* Split Screen Halves */
+      .intro-half {
+        position: absolute;
+        inset: 0;
+        background: #080404;
+        z-index: 1;
+        transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform;
+      }
+
+      .intro-half-top {
+        clip-path: polygon(0 0, 100% 0, 100% 42%, 0 58%);
+        background: linear-gradient(135deg, #1f0a08 0%, #080404 100%);
+      }
+
+      .intro-half-bottom {
+        clip-path: polygon(0 58%, 100% 42%, 100% 100%, 0 100%);
+        background: linear-gradient(315deg, #240c0a 0%, #080404 100%);
+      }
+
+      /* When Smashed, Halves Slide Apart */
+      .katana-intro.smashed .intro-half-top {
+        transform: translate(-60%, -60%) rotate(-6deg);
+      }
+
+      .katana-intro.smashed .intro-half-bottom {
+        transform: translate(60%, 60%) rotate(-6deg);
+      }
+
+      /* Flash & Shockwave */
+      .katana-flash {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at center,
+          rgba(255, 255, 255, 1) 0%,
+          rgba(245, 175, 25, 0.85) 40%,
+          rgba(255, 42, 42, 0.4) 70%,
+          transparent 90%
+        );
+        opacity: 0;
+        pointer-events: none;
+        z-index: 5;
+        transition: opacity 0.08s ease;
+      }
+
+      .katana-intro.smashed .katana-flash {
+        animation: flashBurst 0.6s ease-out forwards;
+      }
+
+      @keyframes flashBurst {
+        0% {
+          opacity: 1;
+        }
+        20% {
+          opacity: 0.9;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      /* Slash Energy Beam Line */
+      .katana-slash-beam {
+        position: absolute;
+        top: 50%;
+        left: -20%;
+        width: 140%;
+        height: 8px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          #ffd700,
+          #ffffff,
+          #ff5500,
+          #ff2a2a,
+          transparent
+        );
+        transform: translateY(-50%) rotate(-8deg) scaleX(0);
+        transform-origin: center;
+        box-shadow:
+          0 0 35px #ffd700,
+          0 0 65px #ff5500,
+          0 0 100px #ff2a2a;
+        z-index: 6;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .katana-intro.smashed .katana-slash-beam {
+        animation: slashBeamAnim 0.7s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+      }
+
+      @keyframes slashBeamAnim {
+        0% {
+          transform: translateY(-50%) rotate(-8deg) scaleX(0);
+          opacity: 1;
+        }
+        25% {
+          transform: translateY(-50%) rotate(-8deg) scaleX(1);
+          opacity: 1;
+        }
+        70% {
+          transform: translateY(-50%) rotate(-8deg) scaleX(1);
+          opacity: 0.9;
+        }
+        100% {
+          transform: translateY(-50%) rotate(-8deg) scaleX(1.2);
+          opacity: 0;
+        }
+      }
+
+      /* Spark Canvas */
+      .katana-spark-canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 7;
+      }
+
+      /* Center Crest Container */
+      .katana-center {
+        position: relative;
+        z-index: 4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        transition:
+          transform 0.4s ease,
+          opacity 0.4s ease;
+      }
+
+      .katana-intro.smashed .katana-center {
+        transform: scale(1.15);
+        opacity: 0;
+      }
+
+      .katana-crest {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 1.2rem;
+      }
+
+      .katana-kanji {
+        font-family: 'Bangers', cursive, serif;
+        font-size: clamp(4.5rem, 9vw, 7.5rem);
+        line-height: 1;
+        color: #ffffff;
+        text-shadow:
+          0 0 20px var(--soul-pulse),
+          0 0 40px var(--devil-spark),
+          0 0 70px var(--devil-blue);
+        animation: kanjiPulse 2s ease-in-out infinite;
+        letter-spacing: 4px;
+      }
+
+      @keyframes kanjiPulse {
+        0%,
+        100% {
+          transform: scale(1);
+          text-shadow:
+            0 0 20px var(--soul-pulse),
+            0 0 40px var(--devil-spark),
+            0 0 70px var(--devil-blue);
+        }
+        50% {
+          transform: scale(1.04);
+          text-shadow:
+            0 0 35px #ffd700,
+            0 0 65px var(--devil-spark),
+            0 0 100px #fff;
+        }
+      }
+
+      .katana-brand {
+        font-family: 'Bangers', cursive;
+        font-size: clamp(2rem, 4.5vw, 3.5rem);
+        letter-spacing: 6px;
+        color: var(--white-god);
+        text-shadow: 0 0 25px rgba(245, 175, 25, 0.9);
+        margin-top: 0.2rem;
+      }
+
+      .katana-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: clamp(0.7rem, 1.3vw, 0.85rem);
+        letter-spacing: 4px;
+        color: var(--soul-pulse);
+        text-transform: uppercase;
+        margin-top: 0.4rem;
+        background: rgba(255, 42, 42, 0.15);
+        padding: 0.3rem 0.9rem;
+        border: 1px solid rgba(245, 175, 25, 0.5);
+      }
+
+      /* Katana Sword Visual */
+      .katana-sword-wrapper {
+        position: relative;
+        width: clamp(300px, 55vw, 620px);
+        height: 80px;
+        margin: 1rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease;
+      }
+
+      .katana-blade-svg {
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(0 0 15px rgba(245, 175, 25, 0.85));
+      }
+
+      .katana-intro.swinging .katana-sword-wrapper {
+        animation: swordSlashSweep 0.45s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+      }
+
+      @keyframes swordSlashSweep {
+        0% {
+          transform: translate(-100px, 40px) rotate(20deg) scale(0.9);
+          opacity: 0.8;
+        }
+        40% {
+          transform: translate(0, 0) rotate(-8deg) scale(1.1);
+          opacity: 1;
+        }
+        70% {
+          transform: translate(120px, -40px) rotate(-18deg) scale(1.15);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(250px, -80px) rotate(-25deg) scale(1);
+          opacity: 0;
+        }
+      }
+
+      /* Unleash Button */
+      .katana-start-btn {
+        margin-top: 0.8rem;
+        font-family: 'Bangers', cursive;
+        font-size: 1.3rem;
+        letter-spacing: 3px;
+        padding: 0.8rem 2.2rem;
+        background: linear-gradient(135deg, var(--soul-pulse), var(--devil-blue));
+        color: white;
+        border: 2px solid #ffd700;
+        box-shadow:
+          0 0 25px rgba(255, 85, 0, 0.6),
+          4px 4px 0 var(--ink);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        transition: all 0.25s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .katana-start-btn:hover {
+        background: linear-gradient(135deg, #ffd700, #ff2a2a);
+        transform: translateY(-3px) scale(1.04);
+        box-shadow:
+          0 0 40px rgba(255, 215, 0, 0.9),
+          6px 6px 0 var(--ink);
+      }
+
+      .katana-start-btn .katana-btn-icon {
+        font-size: 1.2rem;
+      }
+
+      /* Skip Button */
+      .katana-skip-btn {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        z-index: 10;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.75rem;
+        letter-spacing: 2px;
+        color: var(--dim);
+        background: rgba(8, 4, 4, 0.75);
+        border: 1px solid var(--steel);
+        padding: 0.4rem 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .katana-skip-btn:hover {
+        color: var(--soul-pulse);
+        border-color: var(--soul-pulse);
+        background: rgba(255, 42, 42, 0.15);
+      }
+
+      /* Camera Screen Shake Effect */
+      body.katana-shaking {
+        animation: screenShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+      }
+
+      @keyframes screenShake {
+        0% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        15% {
+          transform: translate(-6px, 4px) rotate(-1deg);
+        }
+        30% {
+          transform: translate(6px, -5px) rotate(1deg);
+        }
+        45% {
+          transform: translate(-4px, 3px) rotate(-0.5deg);
+        }
+        60% {
+          transform: translate(4px, -2px) rotate(0.5deg);
+        }
+        75% {
+          transform: translate(-2px, 1px) rotate(0deg);
+        }
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ============================================================
+     KATANA SMASH OPENING ANIMATION OVERLAY
+     ============================================================ -->
+    <div id="katana-intro" class="katana-intro">
+      <div class="intro-half intro-half-top"></div>
+      <div class="intro-half intro-half-bottom"></div>
+
+      <div class="katana-flash" id="katanaFlash"></div>
+      <div class="katana-slash-beam" id="katanaSlashBeam"></div>
+      <canvas id="katanaSparkCanvas" class="katana-spark-canvas"></canvas>
+
+      <div class="katana-center" id="katanaCenter">
+        <div class="katana-crest">
+          <div class="katana-kanji">斬</div>
+          <div class="katana-brand">WHITEGOD</div>
+          <div class="katana-tag">BREATH OF CODE &amp; FRAMES</div>
+        </div>
+
+        <div class="katana-sword-wrapper" id="katanaSword">
+          <svg class="katana-blade-svg" viewBox="0 0 800 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="bladeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#f5af19" />
+                <stop offset="50%" stop-color="#ffffff" />
+                <stop offset="85%" stop-color="#fff5e6" />
+                <stop offset="100%" stop-color="#ff2a2a" />
+              </linearGradient>
+              <linearGradient id="edgeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#ff5500" />
+                <stop offset="50%" stop-color="#ffffff" />
+                <stop offset="100%" stop-color="#f5af19" />
+              </linearGradient>
+              <filter id="bladeGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="4" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+            <rect x="20" y="50" width="160" height="20" rx="3" fill="#140808" stroke="#f5af19" stroke-width="2" />
+            <line x1="45" y1="50" x2="65" y2="70" stroke="#ff2a2a" stroke-width="3" />
+            <line x1="65" y1="50" x2="45" y2="70" stroke="#ff2a2a" stroke-width="3" />
+            <line x1="85" y1="50" x2="105" y2="70" stroke="#ff2a2a" stroke-width="3" />
+            <line x1="105" y1="50" x2="85" y2="70" stroke="#ff2a2a" stroke-width="3" />
+            <line x1="125" y1="50" x2="145" y2="70" stroke="#ff2a2a" stroke-width="3" />
+            <line x1="145" y1="50" x2="125" y2="70" stroke="#ff2a2a" stroke-width="3" />
+            <ellipse cx="185" cy="60" rx="10" ry="24" fill="#ff2a2a" stroke="#ffd700" stroke-width="2" />
+            <rect x="195" y="52" width="18" height="16" fill="#ffd700" />
+            <path d="M 213 54 C 380 52, 600 45, 760 35 C 775 34, 785 45, 770 56 C 620 66, 400 68, 213 66 Z" fill="url(#bladeGrad)" filter="url(#bladeGlow)" />
+            <path d="M 213 65 C 380 66, 600 64, 768 54 Q 775 48, 770 42 C 610 50, 390 56, 213 57" stroke="url(#edgeGrad)" stroke-width="2.5" />
+          </svg>
+        </div>
+
+        <button class="katana-start-btn" id="katanaStartBtn" onclick="triggerKatanaSmash(true)">
+          <span class="katana-btn-icon">⚔</span>
+          <span>UNLEASH BLADE</span>
+        </button>
+      </div>
+
+      <button class="katana-skip-btn" id="katanaSkipBtn" onclick="finishKatanaIntro()">
+        SKIP [ESC]
+      </button>
+    </div>
+
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div id="progress-bar"></div>
+    <button id="back-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">↑</button>
+
+    <div class="mobile-nav" id="mobileNav">
+      <a href="#about" onclick="toggleMenu()">About</a>
+      <a href="#skills" onclick="toggleMenu()">Skills</a>
+      <a href="#projects" onclick="toggleMenu()">Projects</a>
+      <a href="#experience" onclick="toggleMenu()">Experience</a>
+      <a href="#testimonials" onclick="toggleMenu()">Guild</a>
+      <a href="#contact" onclick="toggleMenu()">Contact</a>
+    </div>
+
+    <nav>
+      <a class="nav-logo" href="#hero">W·G</a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#testimonials">Guild</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-burger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+    </nav>
+
+    <section id="hero">
+      <div class="hero-grid"></div>
+      <canvas id="particles"></canvas>
+
+      <div class="spell-circle">
+        <div class="spell-ring ring-1">
+          <div class="ring-dot"></div>
+        </div>
+        <div class="spell-ring ring-2"></div>
+        <div class="spell-ring ring-3">
+          <div class="ring-dot" style="top: auto; bottom: -5px"></div>
+        </div>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-eyebrow">✦ Grimoire of the White God ✦</div>
+        <div class="hero-name">AYUSH</div>
+        <div class="hero-alias">W H I T E G O D · T H E P R E D A T O R</div>
+        <div class="hero-roles">
+          <span class="hero-role-pill">Full-Stack Developer</span>
+          <span class="hero-role-pill">Video Editor</span>
+          <span class="hero-role-pill">Graphic Designer</span>
+        </div>
+        <div class="hero-tagline">"I build, design, and edit things that hit different."</div>
+        <a href="#about" class="hero-cta">Open the Grimoire ✦</a>
+      </div>
+
+      <div class="hero-scroll-hint">
+        <span class="scroll-label">Scroll</span>
+        <div class="scroll-arrow"></div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="about-chapter-bar reveal">
+        <div class="chapter-num">I</div>
+        <div class="chapter-info">
+          <h2>Origin of the White God</h2>
+          <p>Chapter I — The Predator Awakens</p>
+        </div>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-left reveal-left">
+          <span class="about-ono">FOCUS!!</span>
+
+          <div class="dual-avatar-container">
+            <!-- 1st Circle: White God Avatar (Looking down-right towards Devil) -->
+            <div class="avatar-circle avatar-god" title="White God — Light Arc">
+              <img src="assets/avatars/god-avatar.jpg" alt="White God Avatar" class="avatar-img god-img" />
+              <div class="avatar-tag">White God</div>
+            </div>
+
+            <!-- 2nd Circle: The Predator Devil Avatar (Looking up-left towards God) -->
+            <div class="avatar-circle avatar-devil" title="The Predator — Devil Arc">
+              <img src="assets/avatars/devil-avatar.jpg" alt="The Predator Devil Avatar" class="avatar-img devil-img" />
+              <div class="avatar-tag">The Predator</div>
+            </div>
+          </div>
+
+          <span class="about-ono">GRIND!!</span>
+        </div>
+        <div class="about-right reveal-right">
+          <div class="speech-bubble">
+            <p>
+              I build full-stack web apps and design clean, modern interfaces, and I also edit
+              videos for social and creative projects.
+            </p>
+          </div>
+          <div style="height: 24px"></div>
+          <div class="speech-bubble">
+            <p>
+              I enjoy combining tech and creativity to bring ideas to life. Currently focused on
+              building real-world projects and improving every day.
+            </p>
+          </div>
+          <div class="about-alias-tags">
+            <span class="alias-tag">The Predator</span>
+            <span class="alias-tag">WhiteGod</span>
+            <span class="alias-tag">Builder of Worlds</span>
+            <span class="alias-tag">Self-Driven</span>
+          </div>
+          <div class="fun-fact-panel">
+            <div class="fun-fact-label">⚔ Arc Note</div>
+            <p>"Currently on a self-driven arc — no tutorial hell, only real builds."</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="section-full">
+      <div class="section-inner">
+        <div class="chapter-header reveal">
+          <span class="chapter-label">Chapter II</span>
+          <h2 class="chapter-title">The Arsenal — Three Breath Disciplines</h2>
+          <div class="chapter-divider"></div>
+        </div>
+
+        <div class="breath-category reveal" style="--breath-color: #1a1aff">
+          <div class="breath-header" style="background: var(--void); border-color: #000">
+            <span class="breath-icon">🌊</span>
+            <div>
+              <div class="breath-title">Breath of Code</div>
+              <div class="breath-subtitle" style="color: #4f6ef7">Full-Stack Development</div>
+            </div>
+          </div>
+          <div class="skills-grid"></div>
+        </div>
+
+        <div class="breath-category reveal" style="--breath-color: #0f3460">
+          <div class="breath-header" style="background: var(--void); border-color: #000">
+            <span class="breath-icon">🔥</span>
+            <div>
+              <div class="breath-title">Breath of Frames</div>
+              <div class="breath-subtitle" style="color: #4f6ef7">Video Editing</div>
+            </div>
+          </div>
+          <div class="skills-grid"></div>
+        </div>
+
+        <div class="breath-category reveal" style="--breath-color: #7b2fff">
+          <div class="breath-header" style="background: var(--void); border-color: #000">
+            <span class="breath-icon">🎨</span>
+            <div>
+              <div class="breath-title">Breath of Form</div>
+              <div class="breath-subtitle" style="color: #4f6ef7">Graphic Design</div>
+            </div>
+          </div>
+          <div class="skills-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="chapter-header reveal">
+        <span class="chapter-label">Chapter III</span>
+        <h2 class="chapter-title">Epic Battles — Arcs Completed</h2>
+        <div class="chapter-divider"></div>
+      </div>
+
+      <div class="editing-spell reveal">
+        <div class="editing-header">
+          <div class="editing-title">Spell of Editing</div>
+          <div class="editing-tag">Reels</div>
+        </div>
+
+        <div class="editing-grid">
+          <a
+            href="https://www.instagram.com/reel/DcbEZmeSufR/?igsi=MW55cGpzdnByeTg0Zw=="
+            target="_blank"
+            rel="noopener noreferrer"
+            class="reel-block"
+            aria-label="Reel 01 - Cut"
+          >
+            <div class="reel-label">01</div>
+            <img class="reel-poster" src="assets/reels/reel1.jpg" alt="Reel 01 - Cut (Boys vs Girls Hug Me Prank)" loading="lazy" />
+            <div class="reel-surface">
+              <span class="reel-text">Cut</span>
+              <span class="reel-action"><span class="reel-play-icon">▶</span> Watch</span>
+            </div>
+          </a>
+
+          <a
+            href="https://www.instagram.com/reel/Db3EKrQS-oA/?igsi=MXRhdm85dXl3ZzhwaA=="
+            target="_blank"
+            rel="noopener noreferrer"
+            class="reel-block"
+            aria-label="Reel 02 - Sync"
+          >
+            <div class="reel-label">02</div>
+            <img class="reel-poster" src="assets/reels/reel2.jpg" alt="Reel 02 - Sync (Boys Date For Girls)" loading="lazy" />
+            <div class="reel-surface">
+              <span class="reel-text">Sync</span>
+              <span class="reel-action"><span class="reel-play-icon">▶</span> Watch</span>
+            </div>
+          </a>
+
+          <a
+            href="https://drive.google.com/drive/mobile/folders/1Aq3Te9uTjsROOp90ac8fxn__7AhY_EqU?fbclid=PAVERTVgT_cqhwZG9mAmV4dG4DYWVtAjEwAHNydGMGYXBwX2lkDzU2NzA2NzM0MzM1MjQyNwABp6adZEb3qkw9D5itqtMw_zEjJeMSVH9MGNSmf-pEOVTdkeBhbdWzoaZ36pPY_aem_1WPsf_ztc_5vIfTb3yaXuw"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="reel-block"
+            aria-label="Reel 03 - FX"
+          >
+            <div class="reel-label">03</div>
+            <img class="reel-poster" src="assets/reels/reel3.jpg" alt="Reel 03 - FX (Random Clips of Unplanned Trip)" loading="lazy" />
+            <div class="reel-surface">
+              <span class="reel-text">FX</span>
+              <span class="reel-action"><span class="reel-play-icon">▶</span> Watch</span>
+            </div>
+          </a>
+
+          <a
+            href="https://drive.google.com/drive/mobile/folders/1Aq3Te9uTjsROOp90ac8fxn__7AhY_EqU?fbclid=PAVERTVgT_cqhwZG9mAmV4dG4DYWVtAjEwAHNydGMGYXBwX2lkDzU2NzA2NzM0MzM1MjQyNwABp6adZEb3qkw9D5itqtMw_zEjJeMSVH9MGNSmf-pEOVTdkeBhbdWzoaZ36pPY_aem_1WPsf_ztc_5vIfTb3yaXuw"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="reel-block"
+            aria-label="Reel 04 - Drop"
+          >
+            <div class="reel-label">04</div>
+            <img class="reel-poster" src="assets/reels/reel4.jpg" alt="Reel 04 - Drop (Internship Guidance Course)" loading="lazy" />
+            <div class="reel-surface">
+              <span class="reel-text">Drop</span>
+              <span class="reel-action"><span class="reel-play-icon">▶</span> Watch</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="projects-grid">
+        <div class="project-card project-card-featured reveal">
+          <div class="project-visual project-visual-featured">
+            <span class="project-arc-label">Arc I — Featured</span>
+            <span class="project-icon">🌿</span>
+          </div>
+          <div class="project-body">
+            <div class="project-title">Green-Tech</div>
+            <div class="project-desc">
+              A web platform focused on sustainability and green technology awareness. Built with a
+              modern, responsive UI to spread eco-conscious ideas through a clean digital
+              experience.
+            </div>
+            <div class="tech-stack">
+              <span class="tech-pill">React</span>
+              <span class="tech-pill">Tailwind CSS</span>
+              <span class="tech-pill">JavaScript</span>
+              <span class="tech-pill">GitHub</span>
+            </div>
+            <div class="project-links">
+              <a
+                href="https://github.com/WhiteGod0227/Green-Tech"
+                target="_blank"
+                class="project-link project-link-primary"
+                >⚔ GitHub</a
+              >
+              <span class="project-link project-link-secondary" style="opacity: 0.5"
+                >🌐 Coming Soon</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="projects-bottom-row">
+          <div class="project-card reveal-left" style="border-top: none">
+            <div class="project-visual">
+              <span class="project-arc-label">Arc II</span>
+              <span class="project-icon">🏥</span>
+            </div>
+            <div class="project-body">
+              <div class="project-title">Healthcare Main</div>
+              <div class="project-desc">
+                A healthcare web app for managing medical information with a clean, dashboard-style
+                UI focused on clarity and accessibility of health data.
+              </div>
+              <div class="tech-stack">
+                <span class="tech-pill">React</span>
+                <span class="tech-pill">Tailwind CSS</span>
+                <span class="tech-pill">JavaScript</span>
+              </div>
+              <div class="project-links">
+                <a
+                  href="https://github.com/WhiteGod0227/healthcare-main"
+                  target="_blank"
+                  class="project-link project-link-primary"
+                  >⚔ GitHub</a
+                >
+                <span class="project-link project-link-secondary" style="opacity: 0.5"
+                  >🌐 Soon</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card reveal-right" style="border-top: none">
+            <div class="project-visual">
+              <span class="project-arc-label">Arc III</span>
+              <span class="project-icon">💊</span>
+            </div>
+            <div class="project-body">
+              <div class="project-title">Swasth-Saarthi</div>
+              <div class="project-desc">
+                A health assistance platform to help users access basic healthcare features and
+                essential wellness information in a simple, approachable interface.
+              </div>
+              <div class="tech-stack">
+                <span class="tech-pill">React</span>
+                <span class="tech-pill">Tailwind CSS</span>
+                <span class="tech-pill">JavaScript</span>
+              </div>
+              <div class="project-links">
+                <a
+                  href="https://github.com/WhiteDevil1247/Swasth-Saarthi-Main"
+                  target="_blank"
+                  class="project-link project-link-primary"
+                  >⚔ GitHub</a
+                >
+                <span class="project-link project-link-secondary" style="opacity: 0.5"
+                  >🌐 Soon</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="section-full">
+      <div class="section-inner">
+        <div class="chapter-header reveal">
+          <span class="chapter-label">Chapter IV</span>
+          <h2 class="chapter-title">The Journey Arc</h2>
+          <div class="chapter-divider"></div>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-entry reveal">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <div class="arc-badge">⚔ Origin Arc — The Self-Made Predator</div>
+              <div class="exp-company">Self-Driven</div>
+              <div class="exp-role">Full-Stack Developer</div>
+              <div class="exp-dates">2024 — PRESENT</div>
+              <ul class="exp-achievements">
+                <li>
+                  Developed multiple real-world projects including healthcare and sustainability web
+                  apps from conception to deployment.
+                </li>
+                <li>
+                  Implemented responsive dashboards and complete authentication flows using JWT and
+                  session-based authentication.
+                </li>
+                <li>
+                  Used GitHub for version control and collaborative project management across all
+                  builds.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="timeline-future reveal">
+            <span style="color: var(--soul-pulse)">⟳</span>
+            <span>NEXT ARC LOADING... · Volume II Coming Soon</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="testimonials">
+      <div class="chapter-header reveal">
+        <span class="chapter-label">Chapter V</span>
+        <h2 class="chapter-title">Words of the Guild</h2>
+        <div class="chapter-divider"></div>
+      </div>
+
+      <div class="testi-grid">
+        <div class="testi-card reveal-left">
+          <div class="testi-quote-mark">"</div>
+          <div class="testi-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span
+            ><span class="star">★</span><span class="star">★</span>
+          </div>
+          <p class="testi-text">
+            He worked very efficiently and delivered the edit exactly as expected. The turnaround
+            time was quick and the final video quality was on point.
+          </p>
+          <div class="testi-client">
+            <div class="testi-name">Yash</div>
+            <div class="testi-role">Content Creator · 2–3M+ Followers</div>
+          </div>
+        </div>
+
+        <div class="testi-card reveal-right">
+          <div class="testi-quote-mark">"</div>
+          <div class="testi-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span
+            ><span class="star">★</span><span class="star">★</span>
+          </div>
+          <p class="testi-text">
+            Fast delivery, great communication, and high-quality editing. Would definitely
+            collaborate again — the final output was clean and professional.
+          </p>
+          <div class="testi-client">
+            <div class="testi-name">Yash</div>
+            <div class="testi-role">Digital Creator</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section-full">
+      <div class="section-inner">
+        <div class="chapter-header reveal">
+          <span class="chapter-label">Chapter VI</span>
+          <h2 class="chapter-title">Send a Scroll to WhiteGod</h2>
+          <div class="chapter-divider"></div>
+        </div>
+
+        <div class="contact-grid reveal">
+          <div class="contact-left">
+            <div class="contact-intro">Form an Alliance ✦</div>
+            <p class="contact-sub">
+              "Wish to collaborate? Drop your scroll below — WhiteGod responds swiftly."
+            </p>
+
+            <div class="social-links">
+              <a class="social-link" href="https://github.com/WhiteGod0227" target="_blank"
+                ><span class="social-icon">⚙</span><span>github.com/WhiteGod0227</span></a
+              >
+              <a
+                class="social-link"
+                href="https://www.linkedin.com/in/ayush-kumar-singh-84a860319/"
+                target="_blank"
+                ><span class="social-icon">◈</span><span>LinkedIn — Ayush Kumar Singh</span></a
+              >
+              <a class="social-link" href="https://instagram.com/ayush__singh_0227" target="_blank"
+                ><span class="social-icon">◉</span><span>@ayush__singh_0227</span></a
+              >
+              <a class="social-link" href="mailto:ayush.singh.10293@gmail.com"
+                ><span class="social-icon">✉</span><span>ayush.singh.10293@gmail.com</span></a
+              >
+            </div>
+          </div>
+
+          <div class="contact-right">
+            <form class="grimoire-form" id="contactForm" onsubmit="handleSubmit(event)">
+              <div class="form-field">
+                <label class="form-label">Your True Name</label>
+                <input class="form-input" id="senderName" name="name" type="text" placeholder="Enter your name..." required />
+              </div>
+              <div class="form-field">
+                <label class="form-label">Your Magic Seal (Email)</label>
+                <input class="form-input" id="senderEmail" name="email" type="email" placeholder="your@email.com" required />
+              </div>
+              <div class="form-field">
+                <label class="form-label">Content of Your Scroll</label>
+                <textarea
+                  class="form-textarea"
+                  id="senderMessage"
+                  name="message"
+                  placeholder="Write your message here..."
+                  required
+                ></textarea>
+              </div>
+              <button type="submit" class="submit-btn" id="submitSpellBtn">Cast the Message Spell ✦</button>
+              <div id="formError"></div>
+              <div id="serverStatusBadge" onclick="openGrimoireModal()" title="Click to inspect Grimoire Database &amp; API Status">
+                <span id="serverDot" style="width: 8px; height: 8px; border-radius: 50%; background: #ffd700; box-shadow: 0 0 8px #ffd700; display: inline-block;"></span>
+                <span id="serverStatusText">Grimoire Core: Connecting...</span>
+                <span style="font-size: 0.65rem; opacity: 0.75; margin-left: 4px; color: #ffd700;">[Inspect ✦]</span>
+              </div>
+            </form>
+            <div class="form-success" id="formSuccess">
+              <div class="success-text">SCROLL RECEIVED!! ✦</div>
+              <p id="successScrollDetail" style="color: var(--dim); font-family: 'Rajdhani'; margin-top: 1rem; font-size: 1.1rem; line-height: 1.5;">
+                WhiteGod has received your transmission in the Grimoire database. The alliance is forming.
+              </p>
+              <div id="successRecordMeta" style="margin-top: 0.8rem; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #ffd700; opacity: 0.9;"></div>
+              <button onclick="resetContactForm()" style="margin-top: 1.5rem; background: transparent; border: 1px solid #ffd700; color: #ffd700; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; padding: 0.5rem 1.2rem; cursor: pointer; text-transform: uppercase; letter-spacing: 2px;">
+                Send Another Scroll ✦
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-seal">W · G</div>
+      <div class="footer-copy">
+        © 2024 AYUSH KUMAR SINGH — VOLUME I COMPLETE · VOLUME II LOADING...
+      </div>
+      <div class="footer-socials">
+        <a class="footer-social-link" href="https://github.com/WhiteGod0227" target="_blank"
+          >GitHub</a
+        >
+        <a
+          class="footer-social-link"
+          href="https://www.linkedin.com/in/ayush-kumar-singh-84a860319/"
+          target="_blank"
+          >LinkedIn</a
+        >
+        <a class="footer-social-link" href="https://instagram.com/ayush__singh_0227" target="_blank"
+          >Instagram</a
+        >
+        <a class="footer-social-link" href="mailto:ayush.singh.10293@gmail.com">Email</a>
+      </div>
+    </footer>
+
+    <!-- ============================================================
+         GRIMOIRE DATABASE & API INSPECTOR MODAL
+         ============================================================ -->
+    <div id="grimoireModal" class="grimoire-modal" style="display: none;">
+      <div class="grimoire-modal-overlay" onclick="closeGrimoireModal()"></div>
+      <div class="grimoire-modal-card">
+        <div class="grimoire-modal-header">
+          <div class="grimoire-modal-title">
+            <span class="grimoire-modal-icon">🔮</span>
+            <span>GRIMOIRE CORE INSPECTOR</span>
+          </div>
+          <button class="grimoire-modal-close" onclick="closeGrimoireModal()">✕</button>
+        </div>
+        
+        <div class="grimoire-modal-body">
+          <div class="grimoire-status-panel">
+            <div class="status-panel-row">
+              <span class="status-panel-label">Server Status:</span>
+              <span id="modalServerStatus" class="status-panel-val status-online">● Checking...</span>
+            </div>
+            <div class="status-panel-row">
+              <span class="status-panel-label">Storage Engine:</span>
+              <span id="modalDbMode" class="status-panel-val">—</span>
+            </div>
+            <div class="status-panel-row">
+              <span class="status-panel-label">Server Uptime:</span>
+              <span id="modalUptime" class="status-panel-val">—</span>
+            </div>
+            <div class="status-panel-row">
+              <span class="status-panel-label">API Root:</span>
+              <span id="modalEndpoint" class="status-panel-val" style="font-size: 0.72rem; word-break: break-all;">—</span>
+            </div>
+          </div>
+
+          <div class="grimoire-modal-actions">
+            <button class="grimoire-modal-btn" onclick="checkServerHealth(true)">⟳ Ping Health</button>
+            <button class="grimoire-modal-btn" onclick="loadGrimoireMessages()">📜 Refresh Scrolls</button>
+          </div>
+
+          <div class="grimoire-scrolls-header">
+            <span>📜 Received Scrolls in Grimoire (<span id="modalScrollCount">0</span>)</span>
+          </div>
+
+          <div id="grimoireScrollsList" class="grimoire-scrolls-list">
+            <div class="grimoire-scroll-empty">Click "Refresh Scrolls" or submit a message to view received transmissions.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom Cursor DOM Elements -->
+    <canvas id="cursorAuraCanvas" class="cursor-aura-canvas"></canvas>
+    <div class="cursor-aura" id="cursorAura"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <script>
+      /* ============================================================
+         ULTRA-SMOOTH GOLDEN CURSOR WITH REDDISH DEMONIC AURA TRAIL
+         ============================================================ */
+      const cursorDot = document.getElementById('cursorDot');
+      const cursorAura = document.getElementById('cursorAura');
+      const auraCanvas = document.getElementById('cursorAuraCanvas');
+      const auraCtx = auraCanvas ? auraCanvas.getContext('2d') : null;
+
+      let mx = window.innerWidth / 2;
+      let my = window.innerHeight / 2;
+      let cx = mx;
+      let cy = my;
+      const auraTrail = [];
+
+      function resizeAuraCanvas() {
+        if (auraCanvas) {
+          auraCanvas.width = window.innerWidth;
+          auraCanvas.height = window.innerHeight;
+        }
+      }
+      resizeAuraCanvas();
+      window.addEventListener('resize', resizeAuraCanvas);
+
+      document.addEventListener('mousemove', (e) => {
+        const prevMx = mx;
+        const prevMy = my;
+        mx = e.clientX;
+        my = e.clientY;
+
+        if (cursorDot) {
+          cursorDot.style.left = mx + 'px';
+          cursorDot.style.top = my + 'px';
+        }
+
+        // Spawn smooth reddish aura trail wisps when moving
+        const dist = Math.hypot(mx - prevMx, my - prevMy);
+        if (dist > 3) {
+          const count = Math.min(Math.floor(dist / 6) + 1, 3);
+          for (let k = 0; k < count; k++) {
+            const lerpFactor = k / count;
+            const px = prevMx + (mx - prevMx) * lerpFactor;
+            const py = prevMy + (my - prevMy) * lerpFactor;
+            auraTrail.push({
+              x: px + (Math.random() - 0.5) * 6,
+              y: py + (Math.random() - 0.5) * 6,
+              radius: Math.random() * 16 + 12,
+              alpha: 0.55,
+              decay: Math.random() * 0.022 + 0.018,
+              vx: (Math.random() - 0.5) * 0.5,
+              vy: (Math.random() - 0.5) * 0.5 + 0.1,
+            });
+          }
+        }
+      });
+
+      (function animCursorAndAura() {
+        // Ultra-smooth lag transition for the reddish aura ring
+        cx += (mx - cx) * 0.15;
+        cy += (my - cy) * 0.15;
+
+        if (cursorAura) {
+          cursorAura.style.left = cx + 'px';
+          cursorAura.style.top = cy + 'px';
+        }
+
+        // Render Demonic Reddish Aura Ghosting Trail
+        if (auraCtx && auraCanvas) {
+          auraCtx.clearRect(0, 0, auraCanvas.width, auraCanvas.height);
+          for (let i = auraTrail.length - 1; i >= 0; i--) {
+            const p = auraTrail[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.alpha -= p.decay;
+            p.radius += 0.5;
+
+            if (p.alpha <= 0) {
+              auraTrail.splice(i, 1);
+              continue;
+            }
+
+            const grad = auraCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
+            grad.addColorStop(0, `rgba(255, 30, 39, ${p.alpha})`);
+            grad.addColorStop(0.4, `rgba(220, 15, 25, ${p.alpha * 0.6})`);
+            grad.addColorStop(1, 'rgba(180, 0, 15, 0)');
+
+            auraCtx.beginPath();
+            auraCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            auraCtx.fillStyle = grad;
+            auraCtx.fill();
+          }
+        }
+
+        requestAnimationFrame(animCursorAndAura);
+      })();
+
+      document.querySelectorAll('a, button, .project-card, .skill-card, .reel-block').forEach((el) => {
+        el.addEventListener('mouseenter', () => {
+          if (cursorAura) {
+            cursorAura.style.width = '48px';
+            cursorAura.style.height = '48px';
+            cursorAura.style.boxShadow = '0 0 35px rgba(255, 30, 45, 0.95), 0 0 15px rgba(255, 215, 0, 0.6)';
+            cursorAura.style.borderColor = '#ffd700';
+          }
+          if (cursorDot) {
+            cursorDot.style.transform = 'translate(-50%, -50%) scale(1.4)';
+          }
+        });
+        el.addEventListener('mouseleave', () => {
+          if (cursorAura) {
+            cursorAura.style.width = '36px';
+            cursorAura.style.height = '36px';
+            cursorAura.style.boxShadow = '0 0 25px rgba(255, 30, 45, 0.85), inset 0 0 12px rgba(255, 30, 45, 0.4)';
+            cursorAura.style.borderColor = 'rgba(255, 30, 45, 0.75)';
+          }
+          if (cursorDot) {
+            cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
+          }
+        });
+      });
+
+      window.addEventListener('scroll', () => {
+        const p = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+        document.getElementById('progress-bar').style.width = p + '%';
+        document.getElementById('back-top').classList.toggle('visible', window.scrollY > 400);
+      });
+
+      function toggleMenu() {
+        document.getElementById('mobileNav').classList.toggle('open');
+      }
+
+      const canvas = document.getElementById('particles');
+      const ctx = canvas.getContext('2d');
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+
+      const particles = [];
+      for (let i = 0; i < 80; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: -Math.random() * 0.6 - 0.2,
+          size: Math.random() * 2.5 + 0.5,
+          opacity: Math.random() * 0.6 + 0.1,
+          color:
+            Math.random() < 0.6
+              ? '255,30,39'
+              : Math.random() < 0.85
+                ? '255,69,0'
+                : '255,215,0',
+        });
+      }
+
+      function animParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach((p) => {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.y < -10) p.y = canvas.height + 10;
+          if (p.x < -10) p.x = canvas.width + 10;
+          if (p.x > canvas.width + 10) p.x = -10;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${p.color},${p.opacity})`;
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = `rgba(${p.color},0.8)`;
+          ctx.fill();
+        });
+        requestAnimationFrame(animParticles);
+      }
+      animParticles();
+
+      const codeSkills = [
+        {
+          name: 'HTML5',
+          level: 'hashira',
+          pct: 95,
+        },
+        {
+          name: 'CSS3 / Tailwind CSS',
+          level: 'hashira',
+          pct: 90,
+        },
+        {
+          name: 'JavaScript ES6+',
+          level: 'hashira',
+          pct: 88,
+        },
+        {
+          name: 'React.js',
+          level: 'cultivator',
+          pct: 75,
+        },
+        {
+          name: 'Node.js',
+          level: 'cultivator',
+          pct: 60,
+        },
+        {
+          name: 'Express.js',
+          level: 'cultivator',
+          pct: 60,
+        },
+        {
+          name: 'MongoDB',
+          level: 'cultivator',
+          pct: 60,
+        },
+        {
+          name: 'REST APIs',
+          level: 'cultivator',
+          pct: 62,
+        },
+        {
+          name: 'Auth (JWT/Sessions)',
+          level: 'cultivator',
+          pct: 62,
+        },
+        {
+          name: 'Git & GitHub',
+          level: 'cultivator',
+          pct: 65,
+        },
+        {
+          name: 'SQL (MySQL/PostgreSQL)',
+          level: 'trainee',
+          pct: 38,
+        },
+        {
+          name: 'Deployment (Vercel/Netlify)',
+          level: 'cultivator',
+          pct: 65,
+        },
+      ];
+
+      const frameSkills = [
+        {
+          name: 'Adobe Premiere Pro',
+          level: 'cultivator',
+          pct: 78,
+        },
+        {
+          name: 'After Effects',
+          level: 'cultivator',
+          pct: 65,
+        },
+        {
+          name: 'CapCut / VN Editor',
+          level: 'hashira',
+          pct: 92,
+        },
+        {
+          name: 'Motion Graphics',
+          level: 'cultivator',
+          pct: 65,
+        },
+        {
+          name: 'Color Grading',
+          level: 'cultivator',
+          pct: 68,
+        },
+        {
+          name: 'Reels / Shorts Editing',
+          level: 'hashira',
+          pct: 90,
+        },
+        {
+          name: 'Transitions & Effects',
+          level: 'hashira',
+          pct: 90,
+        },
+      ];
+
+      const formSkills = [
+        {
+          name: 'Figma (UI/UX)',
+          level: 'cultivator',
+          pct: 78,
+        },
+        {
+          name: 'Adobe Photoshop',
+          level: 'cultivator',
+          pct: 65,
+        },
+        {
+          name: 'Adobe Illustrator',
+          level: 'trainee',
+          pct: 38,
+        },
+        {
+          name: 'Canva',
+          level: 'hashira',
+          pct: 92,
+        },
+        {
+          name: 'Branding & Social Creatives',
+          level: 'hashira',
+          pct: 90,
+        },
+        {
+          name: 'Typography & Layout',
+          level: 'cultivator',
+          pct: 68,
+        },
+      ];
+
+      const levelLabel = {
+        hashira: '⚔ Hashira',
+        cultivator: '🗡 Cultivator',
+        trainee: '🔰 Trainee',
+      };
+      const levelClass = {
+        hashira: 'level-hashira',
+        cultivator: 'level-cultivator',
+        trainee: 'level-trainee',
+      };
+
+      function buildSkills(container, skills, color) {
+        container.style.setProperty('--breath-color', color);
+        skills.forEach((s) => {
+          const card = document.createElement('div');
+          card.className = 'skill-card';
+          card.style.setProperty('--breath-color', color);
+          card.innerHTML = `
+          <div class="skill-name">${s.name}</div>
+          <div class="skill-level-badge ${levelClass[s.level]}">${levelLabel[s.level]}</div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-pct="${s.pct}" style="--breath-color:${color}"></div>
+          </div>`;
+          container.appendChild(card);
+        });
+      }
+
+      const categories = document.querySelectorAll('.breath-category');
+      buildSkills(categories[0].querySelector('.skills-grid'), codeSkills, '#F5AF19');
+      buildSkills(categories[1].querySelector('.skills-grid'), frameSkills, '#FF2A2A');
+      buildSkills(categories[2].querySelector('.skills-grid'), formSkills, '#FF7700');
+
+      const revealEls = document.querySelectorAll('.reveal,.reveal-left,.reveal-right');
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add('visible');
+              e.target.querySelectorAll('.skill-bar-fill').forEach((bar) => {
+                setTimeout(() => {
+                  bar.style.width = bar.dataset.pct + '%';
+                  bar.classList.add('animated');
+                }, 200);
+              });
+              observer.unobserve(e.target);
+            }
+          });
+        },
+        {
+          threshold: 0.15,
+        }
+      );
+      revealEls.forEach((el) => observer.observe(el));
+
+      setTimeout(() => {
+        document.querySelectorAll('.skill-card').forEach((card, i) => {
+          const cardObs = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((e) => {
+                if (e.isIntersecting) {
+                  setTimeout(() => {
+                    e.target.style.opacity = '1';
+                    e.target.style.transform = 'translateY(0)';
+                    const bar = e.target.querySelector('.skill-bar-fill');
+                    if (bar) {
+                      bar.style.width = bar.dataset.pct + '%';
+                      bar.classList.add('animated');
+                    }
+                  }, i * 50);
+                  cardObs.unobserve(e.target);
+                }
+              });
+            },
+            {
+              threshold: 0.2,
+            }
+          );
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(20px)';
+          card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+          cardObs.observe(card);
+        });
+      }, 300);
+
+      /* ============================================================
+         BACKEND API & GRIMOIRE CORE CONNECTION
+         ============================================================ */
+      const API_BASE_URL = (() => {
+        if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+          if (window.location.port === '5000') {
+            return '';
+          }
+          if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            return 'http://localhost:5000';
+          }
+        }
+        if (window.location.protocol === 'file:') {
+          return 'http://localhost:5000';
+        }
+        return 'https://whitegod-portfolio-api.onrender.com';
+      })();
+
+      let serverHealthData = null;
+
+      async function checkServerHealth(showAlert = false) {
+        const serverDot = document.getElementById('serverDot');
+        const serverStatusText = document.getElementById('serverStatusText');
+        const modalServerStatus = document.getElementById('modalServerStatus');
+        const modalDbMode = document.getElementById('modalDbMode');
+        const modalUptime = document.getElementById('modalUptime');
+        const modalEndpoint = document.getElementById('modalEndpoint');
+
+        try {
+          const res = await fetch(`${API_BASE_URL}/api/health`, { method: 'GET' });
+          if (res.ok) {
+            const data = await res.json();
+            serverHealthData = data;
+            if (serverDot) {
+              serverDot.style.background = '#00ff88';
+              serverDot.style.boxShadow = '0 0 10px #00ff88';
+            }
+            if (serverStatusText) {
+              serverStatusText.textContent = `Grimoire Core: Online (${data.database.mode})`;
+            }
+            if (modalServerStatus) {
+              modalServerStatus.textContent = '● ONLINE (200 OK)';
+              modalServerStatus.style.color = '#00ff88';
+            }
+            if (modalDbMode) modalDbMode.textContent = data.database.mode || 'Active';
+            if (modalUptime) modalUptime.textContent = data.uptime || 'Active';
+            if (modalEndpoint) modalEndpoint.textContent = `${API_BASE_URL || window.location.origin}/api`;
+
+            if (showAlert) {
+              showGrimoireToast('🔮 Grimoire Core is ONLINE and responsive!', 'success');
+            }
+          } else {
+            throw new Error(`HTTP ${res.status}`);
+          }
+        } catch (err) {
+          if (serverDot) {
+            serverDot.style.background = '#ffd700';
+            serverDot.style.boxShadow = '0 0 8px #ffd700';
+          }
+          if (serverStatusText) {
+            serverStatusText.textContent = `Grimoire Core: Standby Mode`;
+          }
+          if (modalServerStatus) {
+            modalServerStatus.textContent = '● STANDBY / OFFLINE';
+            modalServerStatus.style.color = '#ffd700';
+          }
+          if (modalDbMode) modalDbMode.textContent = 'Local Cache / Standby';
+          if (modalUptime) modalUptime.textContent = 'Offline';
+          if (modalEndpoint) modalEndpoint.textContent = `${API_BASE_URL || 'http://localhost:5000'}/api`;
+
+          if (showAlert) {
+            showGrimoireToast('⚠️ Grimoire Core is in standby. Ensure backend is running.', 'warn');
+          }
+        }
+      }
+
+      async function handleSubmit(e) {
+        e.preventDefault();
+        const form = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitSpellBtn');
+        const errorDiv = document.getElementById('formError');
+        const successDiv = document.getElementById('formSuccess');
+        const successDetail = document.getElementById('successScrollDetail');
+        const successRecordMeta = document.getElementById('successRecordMeta');
+
+        const nameInput = document.getElementById('senderName');
+        const emailInput = document.getElementById('senderEmail');
+        const messageInput = document.getElementById('senderMessage');
+
+        const name = nameInput ? nameInput.value.trim() : '';
+        const email = emailInput ? emailInput.value.trim() : '';
+        const message = messageInput ? messageInput.value.trim() : '';
+
+        // Form Validation
+        if (!name || !email || !message) {
+          showFormError('Please provide your True Name, Magic Seal (Email), and Scroll Content.');
+          return;
+        }
+
+        const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+        if (!emailRegex.test(email)) {
+          showFormError('Please provide a valid magic email seal (e.g. hunter@domain.com).');
+          return;
+        }
+
+        if (errorDiv) errorDiv.style.display = 'none';
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '<span style="display:inline-block;animation:spin 1s linear infinite;margin-right:6px;">✦</span> CASTING SPELL...';
+          submitBtn.style.opacity = '0.75';
+        }
+
+        try {
+          const res = await fetch(`${API_BASE_URL}/api/contact`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, email, message }),
+          });
+
+          const data = await res.json();
+
+          if (res.ok && data.success) {
+            form.style.display = 'none';
+            if (successDetail) {
+              successDetail.innerHTML = `Transmission received from <strong style="color: #ffd700;">${escapeHtml(name)}</strong> (${escapeHtml(email)}). WhiteGod has inscribed your scroll into the Grimoire database.`;
+            }
+            if (successRecordMeta) {
+              const dateStr = data.data && data.data.timestamp ? new Date(data.data.timestamp).toLocaleTimeString() : new Date().toLocaleTimeString();
+              successRecordMeta.textContent = `✦ Scroll Inscribed at ${dateStr} • ID: ${data.data && data.data.id ? data.data.id : 'cast_' + Date.now()}`;
+            }
+            successDiv.classList.add('show');
+            showGrimoireToast(`⚔️ Scroll received from ${name}!`, 'success');
+            // Refresh modal scrolls if open
+            loadGrimoireMessages();
+          } else {
+            throw new Error(data.error || `Failed with status ${res.status}`);
+          }
+        } catch (err) {
+          console.error('Contact submission error:', err);
+          showFormError(`⚠️ ${err.message || 'Could not connect to Grimoire API. Please check server.'}`);
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Cast the Message Spell ✦';
+            submitBtn.style.opacity = '1';
+          }
+        }
+      }
+
+      function showFormError(msg) {
+        const errorDiv = document.getElementById('formError');
+        if (errorDiv) {
+          errorDiv.textContent = msg;
+          errorDiv.style.display = 'block';
+        }
+      }
+
+      function resetContactForm() {
+        const form = document.getElementById('contactForm');
+        const successDiv = document.getElementById('formSuccess');
+        const errorDiv = document.getElementById('formError');
+        if (form) {
+          form.reset();
+          form.style.display = 'flex';
+        }
+        if (errorDiv) {
+          errorDiv.style.display = 'none';
+        }
+        if (successDiv) {
+          successDiv.classList.remove('show');
+        }
+      }
+
+      /* Grimoire Inspector Modal Controls */
+      function openGrimoireModal() {
+        const modal = document.getElementById('grimoireModal');
+        if (modal) {
+          modal.style.display = 'flex';
+          checkServerHealth();
+          loadGrimoireMessages();
+        }
+      }
+
+      function closeGrimoireModal() {
+        const modal = document.getElementById('grimoireModal');
+        if (modal) {
+          modal.style.display = 'none';
+        }
+      }
+
+      async function loadGrimoireMessages() {
+        const container = document.getElementById('grimoireScrollsList');
+        const countSpan = document.getElementById('modalScrollCount');
+        if (!container) return;
+
+        container.innerHTML = '<div class="grimoire-scroll-empty">Fetching scrolls from Grimoire database...</div>';
+
+        try {
+          const res = await fetch(`${API_BASE_URL}/api/contact/messages`);
+          if (res.ok) {
+            const result = await res.json();
+            const scrolls = result.data || [];
+            if (countSpan) countSpan.textContent = scrolls.length;
+
+            if (scrolls.length === 0) {
+              container.innerHTML = '<div class="grimoire-scroll-empty">No scrolls currently inscribed. Cast a scroll below to see it appear here live!</div>';
+              return;
+            }
+
+            container.innerHTML = scrolls.map((s) => `
+              <div class="modal-scroll-card">
+                <div class="modal-scroll-meta">
+                  <span class="modal-scroll-author">⚔ ${escapeHtml(s.name || 'Anonymous')}</span>
+                  <span class="modal-scroll-email">&lt;${escapeHtml(s.email || 'no-email')}&gt;</span>
+                  <span class="modal-scroll-time">${new Date(s.createdAt || Date.now()).toLocaleString()}</span>
+                </div>
+                <div class="modal-scroll-content">${escapeHtml(s.message || '')}</div>
+              </div>
+            `).join('');
+          } else {
+            throw new Error(`Status ${res.status}`);
+          }
+        } catch (err) {
+          container.innerHTML = `<div class="grimoire-scroll-empty" style="color: #ff6b6b;">⚠️ Could not retrieve scrolls. Server may be in offline/standby mode.</div>`;
+        }
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      function showGrimoireToast(msg, type = 'info') {
+        const existing = document.getElementById('grimoireToast');
+        if (existing) existing.remove();
+
+        const toast = document.createElement('div');
+        toast.id = 'grimoireToast';
+        toast.className = `grimoire-toast grimoire-toast-${type}`;
+        toast.textContent = msg;
+        document.body.appendChild(toast);
+
+        setTimeout(() => toast.classList.add('show'), 10);
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => toast.remove(), 400);
+        }, 3500);
+      }
+
+      /* Dynamic Project & Reels Hydration */
+      async function hydrateProjectsAndReels() {
+        try {
+          const res = await fetch(`${API_BASE_URL}/api/projects`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.success && data.data) {
+              console.log('⚡ [Grimoire Sync] Projects & Reels synchronized with backend API.');
+            }
+          }
+        } catch (e) {
+          // Pre-rendered HTML remains seamless fallback
+        }
+      }
+
+      // Keyboard shortcut: Ctrl + Shift + G or Alt + G opens Grimoire Modal
+      window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'g') || (e.altKey && e.key.toLowerCase() === 'g')) {
+          const modal = document.getElementById('grimoireModal');
+          if (modal && modal.style.display === 'flex') {
+            closeGrimoireModal();
+          } else {
+            openGrimoireModal();
+          }
+        }
+        if (e.key === 'Escape') {
+          closeGrimoireModal();
+        }
+      });
+
+      // Initialize API Health check and Project sync
+      checkServerHealth();
+      hydrateProjectsAndReels();
+      setInterval(() => checkServerHealth(), 30000);
+
+      document.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 20;
+        const y = (e.clientY / window.innerHeight - 0.5) * 20;
+        const sc = document.querySelector('.spell-circle');
+        if (sc) sc.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+      });
+
+      /* ============================================================
+         KATANA SOUND ENGINE & OPENING ANIMATION CONTROLLER
+         ============================================================ */
+      let audioCtx = null;
+      function getAudioContext() {
+        if (!audioCtx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          audioCtx = new AudioContext();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        return audioCtx;
+      }
+
+      function playKatanaSlashSound() {
+        try {
+          const ctx = getAudioContext();
+          const now = ctx.currentTime;
+
+          // 1. Unsheath Metallic Clink (0.0s - 0.25s)
+          const clinkOsc = ctx.createOscillator();
+          const clinkGain = ctx.createGain();
+          clinkOsc.type = 'triangle';
+          clinkOsc.frequency.setValueAtTime(2400, now);
+          clinkOsc.frequency.exponentialRampToValueAtTime(3600, now + 0.12);
+          clinkGain.gain.setValueAtTime(0.35, now);
+          clinkGain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+          clinkOsc.connect(clinkGain);
+          clinkGain.connect(ctx.destination);
+          clinkOsc.start(now);
+          clinkOsc.stop(now + 0.25);
+
+          // 2. Blade Wind Whoosh (0.15s - 0.45s)
+          const bufferSize = ctx.sampleRate * 0.4;
+          const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+          const output = noiseBuffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) {
+            output[i] = Math.random() * 2 - 1;
+          }
+          const whiteNoise = ctx.createBufferSource();
+          whiteNoise.buffer = noiseBuffer;
+          const noiseFilter = ctx.createBiquadFilter();
+          noiseFilter.type = 'bandpass';
+          noiseFilter.frequency.setValueAtTime(3200, now + 0.15);
+          noiseFilter.frequency.exponentialRampToValueAtTime(400, now + 0.45);
+          noiseFilter.Q.value = 4.0;
+          const noiseGain = ctx.createGain();
+          noiseGain.gain.setValueAtTime(0.01, now);
+          noiseGain.gain.linearRampToValueAtTime(0.45, now + 0.25);
+          noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+          whiteNoise.connect(noiseFilter);
+          noiseFilter.connect(noiseGain);
+          noiseGain.connect(ctx.destination);
+          whiteNoise.start(now + 0.15);
+          whiteNoise.stop(now + 0.45);
+
+          // 3. Razor Katana Slice (High resonant "SHING" blade impact at 0.28s)
+          const sliceOsc1 = ctx.createOscillator();
+          const sliceOsc2 = ctx.createOscillator();
+          const sliceGain = ctx.createGain();
+          const sliceFilter = ctx.createBiquadFilter();
+
+          sliceOsc1.type = 'sawtooth';
+          sliceOsc2.type = 'square';
+          sliceOsc1.frequency.setValueAtTime(1800, now + 0.25);
+          sliceOsc1.frequency.exponentialRampToValueAtTime(180, now + 0.65);
+          sliceOsc2.frequency.setValueAtTime(3200, now + 0.25);
+          sliceOsc2.frequency.exponentialRampToValueAtTime(450, now + 0.55);
+
+          sliceFilter.type = 'bandpass';
+          sliceFilter.frequency.setValueAtTime(2200, now + 0.25);
+          sliceFilter.frequency.exponentialRampToValueAtTime(350, now + 0.65);
+          sliceFilter.Q.value = 9.0;
+
+          sliceGain.gain.setValueAtTime(0.01, now);
+          sliceGain.gain.linearRampToValueAtTime(0.75, now + 0.28);
+          sliceGain.gain.exponentialRampToValueAtTime(0.001, now + 0.7);
+
+          sliceOsc1.connect(sliceFilter);
+          sliceOsc2.connect(sliceFilter);
+          sliceFilter.connect(sliceGain);
+          sliceGain.connect(ctx.destination);
+
+          sliceOsc1.start(now + 0.25);
+          sliceOsc2.start(now + 0.25);
+          sliceOsc1.stop(now + 0.7);
+          sliceOsc2.stop(now + 0.7);
+
+          // 4. Katana Smash Sub-Bass Shockwave Impact (0.28s - 1.1s)
+          const smashOsc = ctx.createOscillator();
+          const smashGain = ctx.createGain();
+          smashOsc.type = 'sine';
+          smashOsc.frequency.setValueAtTime(120, now + 0.28);
+          smashOsc.frequency.exponentialRampToValueAtTime(32, now + 0.95);
+
+          smashGain.gain.setValueAtTime(0.01, now);
+          smashGain.gain.linearRampToValueAtTime(0.85, now + 0.3);
+          smashGain.gain.exponentialRampToValueAtTime(0.001, now + 1.1);
+
+          smashOsc.connect(smashGain);
+          smashGain.connect(ctx.destination);
+          smashOsc.start(now + 0.28);
+          smashOsc.stop(now + 1.1);
+        } catch (e) {
+          console.warn('Audio synthesis note:', e);
+        }
+      }
+
+      /* Spark Particles on Diagonal Slice */
+      let sparkParticles = [];
+      let sparkAnimationId = null;
+
+      function createKatanaSparks() {
+        const canvas = document.getElementById('katanaSparkCanvas');
+        if (!canvas) return;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const ctx = canvas.getContext('2d');
+
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+
+        sparkParticles = [];
+        for (let i = 0; i < 90; i++) {
+          const spreadX = (Math.random() - 0.5) * canvas.width * 0.9;
+          const spreadY = spreadX * -0.15 + (Math.random() - 0.5) * 40;
+          sparkParticles.push({
+            x: centerX + spreadX,
+            y: centerY + spreadY,
+            vx: (Math.random() - 0.5) * 16 + (Math.random() < 0.5 ? -10 : 10),
+            vy: (Math.random() - 0.5) * 16 - Math.random() * 8,
+            size: Math.random() * 4 + 1.5,
+            alpha: 1,
+            color:
+              Math.random() < 0.35
+                ? '#ffffff'
+                : Math.random() < 0.7
+                  ? '#f5af19'
+                  : '#ff2a2a',
+            decay: Math.random() * 0.03 + 0.015,
+          });
+        }
+
+        function animSparks() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          let active = false;
+          sparkParticles.forEach((p) => {
+            if (p.alpha > 0) {
+              active = true;
+              p.x += p.vx;
+              p.y += p.vy;
+              p.vy += 0.25;
+              p.alpha -= p.decay;
+
+              ctx.beginPath();
+              ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+              ctx.fillStyle = p.color;
+              ctx.globalAlpha = Math.max(0, p.alpha);
+              ctx.shadowBlur = 10;
+              ctx.shadowColor = p.color;
+              ctx.fill();
+            }
+          });
+          if (active) {
+            sparkAnimationId = requestAnimationFrame(animSparks);
+          }
+        }
+        animSparks();
+      }
+
+      /* Main Katana Smash Controller */
+      let isKatanaFinished = false;
+
+      function triggerKatanaSmash(fromUserClick = false) {
+        if (isKatanaFinished) return;
+        const intro = document.getElementById('katana-intro');
+        if (!intro) return;
+
+        playKatanaSlashSound();
+        intro.classList.add('swinging');
+
+        setTimeout(() => {
+          intro.classList.add('smashed');
+          document.body.classList.add('katana-shaking');
+          createKatanaSparks();
+
+          setTimeout(() => {
+            document.body.classList.remove('katana-shaking');
+          }, 500);
+
+          setTimeout(() => {
+            finishKatanaIntro();
+          }, 950);
+        }, 320);
+      }
+
+      function finishKatanaIntro() {
+        if (isKatanaFinished) return;
+        isKatanaFinished = true;
+        const intro = document.getElementById('katana-intro');
+        if (intro) {
+          intro.classList.add('finished');
+          setTimeout(() => {
+            intro.style.display = 'none';
+          }, 500);
+        }
+        if (sparkAnimationId) {
+          cancelAnimationFrame(sparkAnimationId);
+        }
+      }
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') finishKatanaIntro();
+      });
+
+      window.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+          if (!isKatanaFinished) {
+            triggerKatanaSmash(false);
+          }
+        }, 300);
+      });
+
+      // Safety fallback: Ensure intro overlay is dismissed even if animations are skipped
+      setTimeout(() => {
+        finishKatanaIntro();
+      }, 2400);
+    </script>
+  </body>
+</html>
