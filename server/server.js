@@ -17,6 +17,9 @@ const { notFound, errorHandler } = require('./middleware/errorHandler');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Trust proxy for Vercel / serverless rate limiting
+app.set('trust proxy', 1);
+
 // Connect to Database (with automatic local persistent fallback)
 connectDB();
 
@@ -25,22 +28,13 @@ app.use(helmet({
   crossOriginResourcePolicy: false,
 }));
 
-// CORS Configuration
-const allowedOrigins = process.env.CLIENT_ORIGIN
-  ? process.env.CLIENT_ORIGIN.split(',').map((origin) => origin.trim())
-  : ['*'];
-
+// CORS Configuration - allow all origins seamlessly
 app.use(
   cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (e.g. mobile apps, curl, file://)
-      if (!origin || allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      return callback(new Error('CORS policy does not allow access from the specified Origin.'));
-    },
+    origin: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
   })
 );
 

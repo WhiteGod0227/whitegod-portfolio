@@ -35,7 +35,7 @@ const submitScroll = async (req, res, next) => {
       });
     }
 
-    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return res.status(400).json({
         success: false,
@@ -59,10 +59,15 @@ const submitScroll = async (req, res, next) => {
         userAgent,
       });
     } else {
-      // Fallback: Save to Local JSON File
-      const dataDir = path.join(__dirname, '..', 'data');
+      // Fallback: Save to Local JSON File (handles serverless /tmp and local data/ seamlessly)
+      const dataDir = process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME
+        ? path.join(require('os').tmpdir(), 'whitegod_data')
+        : path.join(__dirname, '..', 'data');
+
       if (!fs.existsSync(dataDir)) {
-        fs.mkdirSync(dataDir, { recursive: true });
+        try {
+          fs.mkdirSync(dataDir, { recursive: true });
+        } catch (e) {}
       }
       const messagesFile = path.join(dataDir, 'messages.json');
       let messages = [];
@@ -174,7 +179,10 @@ const getScrolls = async (req, res, next) => {
       return res.status(200).json({ success: true, count: messages.length, data: messages });
     }
 
-    const messagesFile = path.join(__dirname, '..', 'data', 'messages.json');
+    const dataDir = process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME
+      ? path.join(require('os').tmpdir(), 'whitegod_data')
+      : path.join(__dirname, '..', 'data');
+    const messagesFile = path.join(dataDir, 'messages.json');
     let messages = [];
     if (fs.existsSync(messagesFile)) {
       try {

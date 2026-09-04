@@ -3759,22 +3759,37 @@
       /* ============================================================
          BACKEND API & GRIMOIRE CORE CONNECTION
          ============================================================ */
+      const FALLBACK_API_URL = 'https://whitegod-predator.vercel.app';
+
       const API_BASE_URL = (() => {
-        if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
-          if (window.location.port === '5000') {
-            return '';
-          }
-          if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-            return 'http://localhost:5000';
-          }
-        }
         if (window.location.protocol === 'file:') {
           return 'http://localhost:5000';
         }
-        return 'https://whitegod-portfolio-api.onrender.com';
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+          if (window.location.port !== '5000' && window.location.port !== '') {
+            return 'http://localhost:5000';
+          }
+        }
+        return '';
       })();
 
       let serverHealthData = null;
+
+      // Robust Self-Healing API Caller with automatic Cloud Fallback
+      async function callGrimoireApi(endpoint, options = {}) {
+        const primaryUrl = `${API_BASE_URL}${endpoint}`;
+        try {
+          const res = await fetch(primaryUrl, options);
+          return res;
+        } catch (primaryErr) {
+          // If local server is not running or network failed, fallback to live Vercel API
+          if (API_BASE_URL && API_BASE_URL !== FALLBACK_API_URL) {
+            console.log(`⚡ [Grimoire Failover] Local server unavailable. Routing to live cloud API: ${FALLBACK_API_URL}${endpoint}`);
+            return await fetch(`${FALLBACK_API_URL}${endpoint}`, options);
+          }
+          throw primaryErr;
+        }
+      }
 
       async function checkServerHealth(showAlert = false) {
         const serverDot = document.getElementById('serverDot');
@@ -3785,7 +3800,7 @@
         const modalEndpoint = document.getElementById('modalEndpoint');
 
         try {
-          const res = await fetch(`${API_BASE_URL}/api/health`, { method: 'GET' });
+          const res = await callGrimoireApi('/api/health', { method: 'GET' });
           if (res.ok) {
             const data = await res.json();
             serverHealthData = data;
@@ -3802,7 +3817,7 @@
             }
             if (modalDbMode) modalDbMode.textContent = data.database.mode || 'Active';
             if (modalUptime) modalUptime.textContent = data.uptime || 'Active';
-            if (modalEndpoint) modalEndpoint.textContent = `${API_BASE_URL || window.location.origin}/api`;
+            if (modalEndpoint) modalEndpoint.textContent = `${API_BASE_URL || window.location.origin || FALLBACK_API_URL}/api`;
 
             if (showAlert) {
               showGrimoireToast('🔮 Grimoire Core is ONLINE and responsive!', 'success');
@@ -3824,7 +3839,7 @@
           }
           if (modalDbMode) modalDbMode.textContent = 'Local Cache / Standby';
           if (modalUptime) modalUptime.textContent = 'Offline';
-          if (modalEndpoint) modalEndpoint.textContent = `${API_BASE_URL || 'http://localhost:5000'}/api`;
+          if (modalEndpoint) modalEndpoint.textContent = `${API_BASE_URL || FALLBACK_API_URL}/api`;
 
           if (showAlert) {
             showGrimoireToast('⚠️ Grimoire Core is in standby. Ensure backend is running.', 'warn');
@@ -3855,7 +3870,7 @@
           return;
         }
 
-        const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
           showFormError('Please provide a valid magic email seal (e.g. hunter@domain.com).');
           return;
@@ -3869,7 +3884,7 @@
         }
 
         try {
-          const res = await fetch(`${API_BASE_URL}/api/contact`, {
+          const res = await callGrimoireApi('/api/contact', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -3897,7 +3912,7 @@
           }
         } catch (err) {
           console.error('Contact submission error:', err);
-          showFormError(`⚠️ ${err.message || 'Could not connect to Grimoire API. Please check server.'}`);
+          showFormError(`⚠️ ${err.message || 'Could not connect to Grimoire API. Please check connection.'}`);
         } finally {
           if (submitBtn) {
             submitBtn.disabled = false;
@@ -3956,7 +3971,7 @@
         container.innerHTML = '<div class="grimoire-scroll-empty">Fetching scrolls from Grimoire database...</div>';
 
         try {
-          const res = await fetch(`${API_BASE_URL}/api/contact/messages`);
+          const res = await callGrimoireApi('/api/contact/messages');
           if (res.ok) {
             const result = await res.json();
             const scrolls = result.data || [];
@@ -4011,7 +4026,7 @@
       /* Dynamic Project & Reels Hydration */
       async function hydrateProjectsAndReels() {
         try {
-          const res = await fetch(`${API_BASE_URL}/api/projects`);
+          const res = await callGrimoireApi('/api/projects');
           if (res.ok) {
             const data = await res.json();
             if (data.success && data.data) {
